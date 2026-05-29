@@ -1,6 +1,6 @@
 [package]
 name = "utils"
-version = "0.0.0"
+version = "0.1.0"
 edition = "2024"
 
 [features]
@@ -12,7 +12,6 @@ derive_more = { version = "2.1.1", features = ["display"], optional =true }
 
 [dev-dependencies]
 pretty_assertions = "1.4.1"
-test-case = "3.3.1"
 
 [profile.release]
 lto = "fat"
