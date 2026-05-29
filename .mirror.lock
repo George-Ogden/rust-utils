@@ -1,6 +1,8 @@
 # DANGER: EDIT AT YOUR OWN RISK. Track this file in version control so that others can sync files correctly.
 - commit: a47fc432daefad32f01660e891b7a70ad81535d8
   files:
+  - .github/readme-check.yaml
+  - .github/release.yaml
   - .github/rust-lint.yaml
   - .github/rust-test.yaml
   - .semgrep-rules/rust.yaml
@@ -13,4 +15,5 @@
   - rust.mirror.yaml
   - rust.pre-commit-config.yaml
   - template-README.md
+  - version.txt
   source: https://github.com/George-Ogden/mirror-config

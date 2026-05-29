@@ -1,0 +1,14 @@
+name: Tag New Version and Release
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tag-and-release:
+    uses: George-Ogden/actions/.github/workflows/text-release.yaml@v4.6.1

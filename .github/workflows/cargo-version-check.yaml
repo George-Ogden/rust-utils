@@ -1,0 +1,16 @@
+name: Check Cargo.toml version matches version.txt
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check-cargo-toml:
+    uses: George-Ogden/actions/.github/workflows/version-check.yaml@v4.6.1
+    with:
+      prefix: version = \"
+      filename: Cargo.toml

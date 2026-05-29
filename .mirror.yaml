@@ -4,6 +4,8 @@ repos:
       - .mirror.yaml: rust.mirror.yaml
       - .github/workflows/lint.yaml: .github/rust-lint.yaml
       - .github/workflows/test.yaml: .github/rust-test.yaml
+      - .github/workflows/release.yaml: .github/release.yaml
+      - .github/workflows/readme-check.yaml: .github/readme-check.yaml
       - .semgrep-rules/rust.yaml
       - .gitignore: rust.gitignore
       - .pre-commit-config.yaml: rust.pre-commit-config.yaml
@@ -13,3 +15,4 @@ repos:
       - Cargo.toml
       - Cargo.lock
       - clippy.toml
+      - version.txt
