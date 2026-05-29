@@ -1,11 +1,12 @@
 [package]
 name = "utils"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 
 [features]
 id = ["dep:derive_more"]
 map-into = ["dep:fmap"]
+topk = []
 test-utils  = []
 
 [dependencies]
@@ -15,6 +16,8 @@ fmap = { version = "0.8.3", optional = true }
 [dev-dependencies]
 itertools = "0.14.0"
 pretty_assertions = "1.4.1"
+rand = "0.10.1"
+test-case = "3.3.1"
 
 [profile.release]
 lto = "fat"
