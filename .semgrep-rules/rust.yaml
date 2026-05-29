@@ -1,0 +1,48 @@
+rules:
+  - id: vec-from-iter
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `Vec::from_iter()` to convert an iterator into a vector.
+    pattern: $X.into_iter().collect_vec()
+    fix: Vec::from_iter($X)
+
+  - id: collection-from-iter
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `FromIter::from_iter()` to convert an iterator into a collection.
+    pattern: $X.into_iter().collect()
+
+  - id: map-into
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `MapInto::map_into` to convert an iterator to a new type.
+    pattern: $X.map($T::from)
+    fix: $X.map_into::<$T>()
+
+  - id: should-panic-no-test
+    languages:
+      - rust
+    severity: ERROR
+    message: Missing `#[test]` on a function marked `#[should_panic]`.
+    patterns:
+      - pattern: |
+          #[should_panic]
+          fn $X() {
+            ...
+          }
+      - pattern-not: |
+          #[test]
+          #[should_panic]
+          fn $X() {
+            ...
+          }
+
+    fix-regex:
+      regex: |
+        #\[should_panic\]
+      replacement: |
+        #[test]
+        #[should_panic]

@@ -1,0 +1,15 @@
+name: Run Rust Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  cargo-test:
+    uses: George-Ogden/actions/.github/workflows/rust-test.yaml@v4.6.1
+    with:
+      rust-version: stable

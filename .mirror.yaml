@@ -1,0 +1,15 @@
+repos:
+  - source: https://github.com/George-Ogden/mirror-config
+    files:
+      - .mirror.yaml: rust.mirror.yaml
+      - .github/workflows/lint.yaml: .github/rust-lint.yaml
+      - .github/workflows/test.yaml: .github/rust-test.yaml
+      - .semgrep-rules/rust.yaml
+      - .gitignore: rust.gitignore
+      - .pre-commit-config.yaml: rust.pre-commit-config.yaml
+      - README.md: template-README.md
+      - src/main.rs: main.rs
+      - LICENSE
+      - Cargo.toml
+      - Cargo.lock
+      - clippy.toml
