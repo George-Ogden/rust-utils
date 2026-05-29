@@ -90,6 +90,7 @@ repos:
             --allow-staged,
             --allow-dirty,
             --all-targets,
+            --all-features,
             --,
             -A,
             unused_variables,
@@ -101,11 +102,11 @@ repos:
       - id: clippy
         stages: [pre-commit]
         name: clippy check
-        args: [--, -D, warnings, -W, clippy::pedantic]
+        args: [--all-features, --, -D, warnings, -W, clippy::pedantic]
       - id: clippy
         stages: [pre-commit]
         name: clippy all
-        args: [--all-targets, --, -D, warnings]
+        args: [--all-features, --all-targets, --, -D, warnings]
 
   - repo: https://github.com/George-Ogden/pre-commit-hooks/
     rev: v4.0.0
