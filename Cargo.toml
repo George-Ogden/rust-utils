@@ -1,16 +1,19 @@
 [package]
 name = "utils"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 
 [features]
 id = ["dep:derive_more"]
+map-into = ["dep:fmap"]
 test-utils  = []
 
 [dependencies]
-derive_more = { version = "2.1.1", features = ["display"], optional =true }
+derive_more = { version = "2.1.1", features = ["display"], optional = true }
+fmap = { version = "0.8.3", optional = true }
 
 [dev-dependencies]
+itertools = "0.14.0"
 pretty_assertions = "1.4.1"
 
 [profile.release]
