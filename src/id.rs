@@ -11,12 +11,14 @@ thread_local! {
 
 #[cfg(any(test, feature = "test-utils"))]
 /// Set the global id to a known value.
+#[inline]
 pub fn set_global_id(id: usize) {
     GLOBAL_ID.with(|global_id| global_id.store(id, Ordering::SeqCst));
 }
 
 #[cfg(any(test, feature = "test-utils"))]
 /// Set the global id back to zero.
+#[inline]
 pub fn reset_global_id() {
     set_global_id(0);
 }
@@ -35,11 +37,11 @@ fn next_id() -> usize {
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq, Hash, Display)]
 /// Unique auto-incrementing ids.
 /// This is incremented with a global relaxed atomic.
-/// During testing, this is thread-local so the [set_global_id] and [reset_global_id] methods can
-/// control the next id.
+/// During testing, this is thread-local so the [`set_global_id`] and [`reset_global_id`] methods can control the next id.
 pub struct Id(usize);
 
 impl Id {
+    #[inline]
     #[must_use]
     /// Get the next unique id.
     pub fn next() -> Self {

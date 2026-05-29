@@ -1,6 +1,5 @@
 use super::*;
 use pretty_assertions::assert_eq;
-use test_case::test_case;
 
 #[test]
 fn test_id_reset() {
