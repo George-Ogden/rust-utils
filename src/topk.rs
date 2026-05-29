@@ -42,6 +42,10 @@ where
 
 pub trait TopkBy: Iterator + Sized {
     #[inline]
+    /// Select the k largest items from an iterator, by a key function.
+    /// If there insufficient items, all are returned.
+    /// The returned items are sorted from smallest to largest (by key).
+    /// If there is a tie, the ones appearing earliest are chosen.
     fn topk_by<K: Ord, F: FnMut(&Self::Item) -> K>(
         self,
         k: usize,

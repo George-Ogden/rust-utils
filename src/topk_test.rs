@@ -108,7 +108,7 @@ fn test_topk_by_parity() {
 
 #[test]
 fn test_topk_by_parity_smaller() {
-    let x: Vec<usize> = vec![0, 1, 1, 2, 3, 4, 8, 9, 9, 10];
+    let x: Vec<usize> = vec![0, 9, 1, 2, 3, 4, 8, 9, 1, 10];
     let length = x.len();
     let mut count = 0;
     assert_eq!(
@@ -118,7 +118,7 @@ fn test_topk_by_parity_smaller() {
                 x % 2
             })
             .collect_vec(),
-        vec![1, 1, 3]
+        vec![9, 1, 3]
     );
     assert_eq!(count, length);
 }
