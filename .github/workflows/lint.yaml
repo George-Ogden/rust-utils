@@ -13,6 +13,7 @@ jobs:
     uses: George-Ogden/actions/.github/workflows/lint.yaml@v4.6.1
 
   cargo-lint:
-    uses: George-Ogden/actions/.github/workflows/rust-lint.yaml@v4.6.1
+    uses: George-Ogden/actions/.github/workflows/rust-lint.yaml@v4.6.2
     with:
       rust-version: stable
+      hack-flags: --each-feature

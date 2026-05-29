@@ -10,6 +10,7 @@ on:
 
 jobs:
   cargo-test:
-    uses: George-Ogden/actions/.github/workflows/rust-test.yaml@v4.6.1
+    uses: George-Ogden/actions/.github/workflows/rust-test.yaml@v4.6.2
     with:
       rust-version: stable
+      hack-flags: --each-feature
