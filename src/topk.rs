@@ -6,6 +6,9 @@ where
 {
     #[inline]
     #[must_use]
+    /// Select the k largest items from an iterator.
+    /// If there insufficient items, all are returned.
+    /// The returned items are sorted from largest to smallest.
     fn topk(self, k: usize) -> impl IntoIterator<Item = Self::Item> {
         let mut best = BTreeSet::new();
         for (id, item) in self.enumerate() {
