@@ -1,15 +1,21 @@
-use std::collections::{BTreeMap, BTreeSet};
+use std::{
+    collections::{BTreeMap, BTreeSet, btree_map, btree_set},
+    iter::Map,
+};
 
 pub trait Topk: Iterator + Sized
 where
     Self::Item: Ord,
 {
     #[inline]
-    #[must_use]
     /// Select the k largest items from an iterator.
     /// If there insufficient items, all are returned.
     /// The returned items are sorted from smallest to largest.
-    fn topk(self, k: usize) -> impl IntoIterator<Item = Self::Item> {
+    #[expect(clippy::type_complexity)]
+    fn topk(
+        self,
+        k: usize,
+    ) -> Map<btree_set::IntoIter<(Self::Item, usize)>, fn((Self::Item, usize)) -> Self::Item> {
         let mut best = BTreeSet::new();
         for (id, item) in self.enumerate() {
             #[expect(clippy::else_if_without_else)]
@@ -40,7 +46,7 @@ pub trait TopkBy: Iterator + Sized {
         self,
         k: usize,
         mut f: F,
-    ) -> impl IntoIterator<Item = Self::Item> {
+    ) -> btree_map::IntoValues<(K, usize), Self::Item> {
         let mut best = BTreeMap::new();
         for (id, value) in self.enumerate() {
             let key = f(&value);
