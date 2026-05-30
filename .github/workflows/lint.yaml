@@ -10,7 +10,7 @@ on:
 
 jobs:
   prek-lint:
-    uses: George-Ogden/actions/.github/workflows/lint.yaml@v4.6.1
+    uses: George-Ogden/actions/.github/workflows/lint.yaml@v4.6.2
 
   cargo-lint:
     uses: George-Ogden/actions/.github/workflows/rust-lint.yaml@v4.6.2

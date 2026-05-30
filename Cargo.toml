@@ -1,17 +1,19 @@
 [package]
 name = "utils"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2024"
 
 [features]
 id = ["dep:derive_more"]
 map-into = ["dep:fmap"]
+multi-zip = ["dep:itertools"]
 topk = []
 test-utils  = []
 
 [dependencies]
 derive_more = { version = "2.1.1", features = ["display"], optional = true }
 fmap = { version = "0.8.3", optional = true }
+itertools = { version = "0.14.0", optional = true }
 
 [dev-dependencies]
 itertools = "0.14.0"
