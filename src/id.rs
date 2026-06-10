@@ -49,6 +49,38 @@ impl Id {
     }
 }
 
+#[cfg(any(test, feature = "test-utils"))]
+impl From<u32> for Id {
+    #[inline]
+    fn from(value: u32) -> Self {
+        Self(value)
+    }
+}
+
+#[cfg(any(test, feature = "test-utils"))]
+impl From<Id> for u32 {
+    #[inline]
+    fn from(id: Id) -> Self {
+        id.0
+    }
+}
+
+#[cfg(any(test, feature = "test-utils"))]
+impl From<Id> for u64 {
+    #[inline]
+    fn from(id: Id) -> Self {
+        Self::from(id.0)
+    }
+}
+
+#[cfg(any(test, feature = "test-utils"))]
+impl From<Id> for usize {
+    #[inline]
+    fn from(id: Id) -> Self {
+        id.0 as Self
+    }
+}
+
 #[cfg(test)]
 #[path = "id_test.rs"]
 mod test;
