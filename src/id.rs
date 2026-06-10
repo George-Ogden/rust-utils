@@ -1,18 +1,18 @@
 use derive_more::Display;
-use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicU32, Ordering};
 
 #[cfg(not(any(test, feature = "test-utils")))]
-static GLOBAL_ID: AtomicUsize = AtomicUsize::new(0);
+static GLOBAL_ID: AtomicU32 = AtomicU32::new(0);
 
 #[cfg(any(test, feature = "test-utils"))]
 thread_local! {
-    static GLOBAL_ID: AtomicUsize = const { AtomicUsize::new(1) };
+    static GLOBAL_ID: AtomicU32 = const { AtomicU32::new(1) };
 }
 
 #[cfg(any(test, feature = "test-utils"))]
 /// Set the global id to a known value.
 #[inline]
-pub fn set_global_id(id: usize) {
+pub fn set_global_id(id: u32) {
     GLOBAL_ID.with(|global_id| global_id.store(id, Ordering::SeqCst));
 }
 
@@ -24,13 +24,13 @@ pub fn reset_global_id() {
 }
 
 #[cfg(not(any(test, feature = "test-utils")))]
-fn next_id() -> usize {
+fn next_id() -> u32 {
     GLOBAL_ID.fetch_add(1, Ordering::Relaxed)
 }
 
 #[cfg(any(test, feature = "test-utils"))]
 #[must_use]
-fn next_id() -> usize {
+fn next_id() -> u32 {
     GLOBAL_ID.with(|id| id.fetch_add(1, Ordering::Relaxed))
 }
 
@@ -38,7 +38,7 @@ fn next_id() -> usize {
 /// Unique auto-incrementing ids.
 /// This is incremented with a global relaxed atomic.
 /// During testing, this is thread-local so the [`set_global_id`] and [`reset_global_id`] methods can control the next id.
-pub struct Id(usize);
+pub struct Id(u32);
 
 impl Id {
     #[inline]
@@ -46,6 +46,38 @@ impl Id {
     /// Get the next unique id.
     pub fn next() -> Self {
         Self(next_id())
+    }
+}
+
+#[cfg(any(test, feature = "test-utils"))]
+impl From<u32> for Id {
+    #[inline]
+    fn from(value: u32) -> Self {
+        Self(value)
+    }
+}
+
+#[cfg(any(test, feature = "test-utils"))]
+impl From<Id> for u32 {
+    #[inline]
+    fn from(id: Id) -> Self {
+        id.0
+    }
+}
+
+#[cfg(any(test, feature = "test-utils"))]
+impl From<Id> for u64 {
+    #[inline]
+    fn from(id: Id) -> Self {
+        Self::from(id.0)
+    }
+}
+
+#[cfg(any(test, feature = "test-utils"))]
+impl From<Id> for usize {
+    #[inline]
+    fn from(id: Id) -> Self {
+        id.0 as Self
     }
 }
 

@@ -46,3 +46,18 @@ rules:
       replacement: |
         #[test]
         #[should_panic]
+
+  - id: manual-deref-impl
+    languages:
+      - rust
+    severity: ERROR
+    message: Manual `Deref` implementation. Use `#[derive(Deref)]` and `#[deref]` on the struct definition.
+    pattern-inside: |
+      impl ... Deref for ... {
+      ...
+      }
+    pattern: |
+      fn deref(&self) -> &Self::Target {
+          &self.$X
+      }
+           #[should_panic]
