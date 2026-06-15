@@ -6,6 +6,11 @@ pub trait Pair<T, U> {
     fn second(self) -> U;
 }
 
+pub trait PairNew<T, U>: Pair<T, U> {
+    #[must_use]
+    fn new(first: T, second: U) -> Self;
+}
+
 impl<T, U> Pair<T, U> for (T, U) {
     #[inline]
     fn first(self) -> T {
@@ -15,6 +20,13 @@ impl<T, U> Pair<T, U> for (T, U) {
     #[inline]
     fn second(self) -> U {
         self.1
+    }
+}
+
+impl<T, U> PairNew<T, U> for (T, U) {
+    #[inline]
+    fn new(first: T, second: U) -> Self {
+        (first, second)
     }
 }
 

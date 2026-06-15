@@ -10,6 +10,11 @@ fn test_tuple_pair() {
 }
 
 #[test]
+fn test_tuple_pair_new() {
+    assert_eq!(<((), (i32,))>::new((), (0,)), ((), (0,)));
+}
+
+#[test]
 fn test_tuple_ref_pair() {
     let tuple = (true, "right");
     let pair = &tuple;
