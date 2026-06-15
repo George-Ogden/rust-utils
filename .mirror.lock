@@ -1,10 +1,10 @@
 # DANGER: EDIT AT YOUR OWN RISK. Track this file in version control so that others can sync files correctly.
-- commit: 7e3db2de964bd3d1174b5b53f8313e3d74ae424a
+- commit: 080340c4b9774d8cd1450f1d5425253e05ac2cbf
   files:
-  - .github/readme-check.yaml
   - .github/release.yaml
   - .github/rust-lint.yaml
   - .github/rust-test.yaml
+  - .github/rust-version-check.yaml
   - .semgrep-rules/rust.yaml
   - Cargo.lock
   - Cargo.toml
