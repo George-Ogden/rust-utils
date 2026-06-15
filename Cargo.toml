@@ -1,12 +1,13 @@
 [package]
 name = "utils"
-version = "0.4.1"
+version = "0.5.0"
 edition = "2024"
 
 [features]
 id = ["dep:derive_more"]
 map-into = ["dep:fmap"]
 multi-zip = ["dep:itertools"]
+pair = []
 topk = []
 test-utils  = []
 
@@ -101,6 +102,7 @@ single_char_lifetime_names = "allow"
 std_instead_of_alloc = "allow"
 std_instead_of_core = "allow"
 suboptimal_flops = "allow"
+todo = "allow"
 unimplemented = "allow"
 unreachable = "allow"
 unseparated_literal_suffix = "allow"

@@ -4,5 +4,7 @@ pub mod id;
 pub mod map_into;
 #[cfg(feature = "multi-zip")]
 pub mod multi_zip;
+#[cfg(feature = "pair")]
+pub mod pair;
 #[cfg(feature = "topk")]
 pub mod topk;
