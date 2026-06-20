@@ -4,6 +4,7 @@ use std::{
 };
 
 use fmap::Functor;
+use itertools::Itertools;
 
 pub trait MapInto<T> {
     type Container<X>;
@@ -35,6 +36,18 @@ impl<T> MapInto<T> for Vec<T> {
         T: Into<U>,
     {
         self.fmap(Into::into)
+    }
+}
+
+impl<T, const N: usize> MapInto<T> for [T; N] {
+    type Container<X> = [X; N];
+
+    #[inline]
+    fn map_into<U>(self) -> Self::Container<U>
+    where
+        T: Into<U>,
+    {
+        self.into_iter().map_into().collect_array().unwrap()
     }
 }
 

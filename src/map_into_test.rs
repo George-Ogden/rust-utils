@@ -8,9 +8,15 @@ fn test_itertools_map_into() {
 }
 
 #[test]
-fn test_functor_map_into() {
+fn test_vec_map_into() {
     let v = vec![3, 4, 5];
     assert_eq!(v.map_into::<f64>(), vec![3.0, 4.0, 5.0]);
+}
+
+#[test]
+fn test_array_map_into() {
+    let a = [3, 4, 5];
+    assert_eq!(a.map_into::<Option<i32>>(), [Some(3), Some(4), Some(5)]);
 }
 
 #[test]

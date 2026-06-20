@@ -5,7 +5,7 @@ edition = "2024"
 
 [features]
 id = ["dep:derive_more"]
-map-into = ["dep:fmap"]
+map-into = ["dep:fmap", "dep:itertools"]
 multi-zip = ["dep:itertools"]
 pair = []
 topk = []
