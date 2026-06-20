@@ -8,6 +8,7 @@ id = ["dep:derive_more"]
 map-into = ["dep:fmap", "dep:itertools"]
 multi-zip = ["dep:itertools"]
 pair = []
+to-debug-string = []
 topk = []
 test-utils  = []
 
@@ -21,6 +22,7 @@ itertools = "0.14.0"
 pretty_assertions = "1.4.1"
 rand = "0.10.1"
 test-case = "3.3.1"
+textwrap = "0.16.2"
 
 [profile.release]
 lto = "fat"
