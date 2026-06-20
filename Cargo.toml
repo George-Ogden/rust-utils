@@ -1,11 +1,11 @@
 [package]
 name = "utils"
-version = "0.5.0"
+version = "0.5.1"
 edition = "2024"
 
 [features]
 id = ["dep:derive_more"]
-map-into = ["dep:fmap"]
+map-into = ["dep:fmap", "dep:itertools"]
 multi-zip = ["dep:itertools"]
 pair = []
 topk = []
