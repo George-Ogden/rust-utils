@@ -1,5 +1,6 @@
 use std::fmt::Debug;
 
+/// Equivalent of the `ToString` trait, but using `Debug::fmt` instead of `Display::fmt`.
 pub trait ToDebugString {
     fn to_debug_string(&self) -> String;
     fn to_debug_string_pretty(&self) -> String;
