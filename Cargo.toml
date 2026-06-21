@@ -1,6 +1,6 @@
 [package]
 name = "utils"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2024"
 
 [features]
@@ -8,6 +8,7 @@ id = ["dep:derive_more"]
 map-into = ["dep:fmap", "dep:itertools"]
 multi-zip = ["dep:itertools"]
 pair = []
+take-skip = []
 to-debug-string = []
 topk = []
 test-utils  = []

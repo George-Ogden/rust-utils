@@ -60,4 +60,29 @@ rules:
       fn deref(&self) -> &Self::Target {
           &self.$X
       }
-           #[should_panic]
+
+  - id: missing-test-decorator
+    languages:
+      - rust
+    severity: ERROR
+    message: "Missing `#[test]` on a test function."
+    patterns:
+      - pattern: |
+          fn $NAME(...) {
+            ...
+          }
+      - metavariable-regex:
+          metavariable: $NAME
+          regex: ^test_.*$
+
+      - pattern-not: |
+          #[test]
+          fn $NAME(...) {
+            ...
+          }
+
+      - pattern-not: |
+          #[test_case(...)]
+          fn $NAME(...) {
+            ...
+          }
