@@ -7,14 +7,7 @@ pub trait TakeSkip: Iterator + Sized {
     ///
     /// If the iterator contains fewer than `n` elements, fewer than `n` are collected.
     fn take_skip(mut self, n: usize) -> (Vec<Self::Item>, Self) {
-        let mut take = Vec::with_capacity(n);
-        for _ in 0..n {
-            if let Some(item) = self.next() {
-                take.push(item);
-            } else {
-                break;
-            }
-        }
+        let take = Vec::from_iter(self.by_ref().take(n));
         (take, self)
     }
 }
