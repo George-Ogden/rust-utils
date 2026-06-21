@@ -6,6 +6,8 @@ pub mod map_into;
 pub mod multi_zip;
 #[cfg(feature = "pair")]
 pub mod pair;
+#[cfg(feature = "take-skip")]
+pub mod take_skip;
 #[cfg(feature = "to-debug-string")]
 pub mod to_debug_string;
 #[cfg(feature = "topk")]
