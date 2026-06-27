@@ -4,6 +4,7 @@ version = "0.8.0"
 edition = "2024"
 
 [features]
+all-unique-by-key = ["dep:itertools"]
 id = ["dep:derive_more"]
 map-into = ["dep:fmap", "dep:itertools"]
 multi-zip = ["dep:itertools"]
