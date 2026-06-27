@@ -12,7 +12,7 @@ ci:
 
 repos:
   - repo: https://github.com/George-Ogden/mirror-rorrim/
-    rev: v0.4.9
+    rev: v0.4.10
     hooks:
       - id: mirror-check
         fail_fast: true
@@ -57,7 +57,7 @@ repos:
       - id: codespell
 
   - repo: https://github.com/semgrep/pre-commit/
-    rev: v1.167.0
+    rev: v1.168.0
     hooks:
       - id: semgrep
         require_serial: true
