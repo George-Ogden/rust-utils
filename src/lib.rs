@@ -10,5 +10,3 @@ pub mod pair;
 pub mod take_skip;
 #[cfg(feature = "to-debug-string")]
 pub mod to_debug_string;
-#[cfg(feature = "topk")]
-pub mod topk;
