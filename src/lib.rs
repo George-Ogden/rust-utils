@@ -1,3 +1,5 @@
+#[cfg(feature = "all-unique-by-key")]
+pub mod all_unique_by_key;
 #[cfg(feature = "id")]
 pub mod id;
 #[cfg(feature = "map-into")]
