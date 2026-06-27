@@ -1,9 +1,10 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::atomic::{AtomicI32, Ordering};
-use std::{convert, panic};
+use std::{convert, hash, iter, panic};
 
 use super::*;
+use derive_more::Constructor;
 use pretty_assertions::assert_eq;
 use test_case::test_case;
 
@@ -32,4 +33,45 @@ fn test_all_unique_by_identity<T, U: Eq + Hash + Clone, F: FnMut(T) -> U>(
 ) {
     let items = Vec::from_iter(items);
     assert_eq!(items.into_iter().all_unique_by_key(f), all_unique);
+}
+
+#[test]
+fn test_all_unique_by_lazy() {
+    let mut count = 0;
+    let result = vec![0; 4].into_iter().all_unique_by_key(|x| {
+        count += 1;
+        x
+    });
+    assert!(!result);
+    assert_eq!(count, 2);
+}
+
+#[derive(Constructor)]
+pub struct Destroy(Rc<RefCell<i32>>);
+
+impl Drop for Destroy {
+    fn drop(&mut self) {
+        *self.0.borrow_mut() += 1;
+    }
+}
+
+impl PartialEq for Destroy {
+    fn eq(&self, _other: &Self) -> bool {
+        true
+    }
+}
+impl Eq for Destroy {}
+impl Hash for Destroy {
+    fn hash<H: hash::Hasher>(&self, _state: &mut H) {}
+}
+
+#[test]
+fn test_all_unique_by_destructor() {
+    let count = Rc::new(RefCell::new(0));
+    let items = iter::repeat_with(|| Destroy::new(Rc::clone(&count)))
+        .take(4)
+        .collect_vec();
+    let result = items.into_iter().all_unique_by_key(convert::identity);
+    assert!(!result);
+    assert_eq!(*count.borrow(), 4);
 }
