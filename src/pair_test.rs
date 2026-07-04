@@ -21,3 +21,9 @@ fn test_tuple_ref_pair() {
     assert_eq!(pair.first(), &true);
     assert_eq!(pair.second(), &"right");
 }
+
+#[test]
+fn test_tuple_rev_pair() {
+    let pair = (true, "right");
+    assert_eq!(pair.rev(), ("right", true));
+}

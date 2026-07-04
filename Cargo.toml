@@ -1,6 +1,6 @@
 [package]
 name = "utils"
-version = "0.9.0"
+version = "0.9.1"
 edition = "2024"
 
 [features]
@@ -43,7 +43,7 @@ workspace = true
 
 [workspace.lints.rust]
 warnings = "deny"
-dead_code = "allow"
+dead_code = "deny"
 
 [workspace.lints.clippy]
 correctness = { level = "deny", priority = -1 }
@@ -82,10 +82,12 @@ missing_docs_in_private_items = "allow"
 missing_trait_methods = "allow"
 module_name_repetitions = "allow"
 modulo_arithmetic = "allow"
+multiple_inherent_impl = "allow"
 needless_raw_strings = "allow"
 non_ascii_literal = "allow"
 option_if_let_else = "allow"
 panic = "allow"
+panic_in_result_fn = "allow"
 partial_pub_fields = "allow"
 pattern_type_mismatch = "allow"
 print_stderr = "allow"
