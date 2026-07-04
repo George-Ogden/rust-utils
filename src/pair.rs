@@ -11,6 +11,13 @@ pub trait PairNew<T, U>: Pair<T, U> {
     fn new(first: T, second: U) -> Self;
 }
 
+pub trait PairRev<T, U>: Pair<T, U> {
+    type Rev: Pair<U, T>;
+
+    #[must_use]
+    fn rev(self) -> Self::Rev;
+}
+
 impl<T, U> Pair<T, U> for (T, U) {
     #[inline]
     fn first(self) -> T {
@@ -39,6 +46,16 @@ impl<'a, T, U> Pair<&'a T, &'a U> for &'a (T, U) {
     #[inline]
     fn second(self) -> &'a U {
         &self.1
+    }
+}
+
+impl<T, U> PairRev<T, U> for (T, U) {
+    type Rev = (U, T);
+
+    #[inline]
+    fn rev(self) -> Self::Rev {
+        let (first, second) = self;
+        (second, first)
     }
 }
 
