@@ -1,5 +1,5 @@
 # DANGER: EDIT AT YOUR OWN RISK. Track this file in version control so that others can sync files correctly.
-- commit: eaec252106d92d041e6bce384c7b7514ea41d83a
+- commit: 084a74ca9c15860560d0862b56c5268956697345
   files:
   - .github/release.yaml
   - .github/rust-lint.yaml

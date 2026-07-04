@@ -86,3 +86,12 @@ rules:
           fn $NAME(...) {
             ...
           }
+
+  - id: map-all-unique
+    languages:
+      - rust
+    severity: ERROR
+    message: Use of `Iterator::map` then `Itertools::all_unique` to check uniqueness by a key.
+    pattern: |
+      $X.map($F).all_unique()
+    fix: $X.all_unique_by_key($F)

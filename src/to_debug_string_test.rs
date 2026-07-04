@@ -6,6 +6,7 @@ use pretty_assertions::assert_eq;
 #[test]
 fn test_to_string_debug_auto_impl() {
     #[derive(Debug)]
+    #[expect(dead_code)]
     struct DebugAutoImpl {
         num: i32,
         float: f64,
