@@ -1,34 +1,34 @@
 use derive_more::Display;
 use std::sync::atomic::{AtomicU32, Ordering};
 
-#[cfg(not(any(test, feature = "test-utils")))]
+#[cfg(not(feature = "test-utils"))]
 static GLOBAL_ID: AtomicU32 = AtomicU32::new(0);
 
-#[cfg(any(test, feature = "test-utils"))]
+#[cfg(feature = "test-utils")]
 thread_local! {
     static GLOBAL_ID: AtomicU32 = const { AtomicU32::new(1) };
 }
 
-#[cfg(any(test, feature = "test-utils"))]
+#[cfg(feature = "test-utils")]
 /// Set the global id to a known value.
 #[inline]
 pub fn set_global_id(id: u32) {
     GLOBAL_ID.with(|global_id| global_id.store(id, Ordering::SeqCst));
 }
 
-#[cfg(any(test, feature = "test-utils"))]
+#[cfg(feature = "test-utils")]
 /// Set the global id back to zero.
 #[inline]
 pub fn reset_global_id() {
     set_global_id(0);
 }
 
-#[cfg(not(any(test, feature = "test-utils")))]
+#[cfg(not(feature = "test-utils"))]
 fn next_id() -> u32 {
     GLOBAL_ID.fetch_add(1, Ordering::Relaxed)
 }
 
-#[cfg(any(test, feature = "test-utils"))]
+#[cfg(feature = "test-utils")]
 #[must_use]
 fn next_id() -> u32 {
     GLOBAL_ID.with(|id| id.fetch_add(1, Ordering::Relaxed))
@@ -49,7 +49,7 @@ impl Id {
     }
 }
 
-#[cfg(any(test, feature = "test-utils"))]
+#[cfg(feature = "test-utils")]
 impl From<u32> for Id {
     #[inline]
     fn from(value: u32) -> Self {
@@ -57,7 +57,7 @@ impl From<u32> for Id {
     }
 }
 
-#[cfg(any(test, feature = "test-utils"))]
+#[cfg(feature = "test-utils")]
 impl From<Id> for u32 {
     #[inline]
     fn from(id: Id) -> Self {
@@ -65,7 +65,7 @@ impl From<Id> for u32 {
     }
 }
 
-#[cfg(any(test, feature = "test-utils"))]
+#[cfg(feature = "test-utils")]
 impl From<Id> for u64 {
     #[inline]
     fn from(id: Id) -> Self {
@@ -73,7 +73,7 @@ impl From<Id> for u64 {
     }
 }
 
-#[cfg(any(test, feature = "test-utils"))]
+#[cfg(feature = "test-utils")]
 impl From<Id> for usize {
     #[inline]
     fn from(id: Id) -> Self {

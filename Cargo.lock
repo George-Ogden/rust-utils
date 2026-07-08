@@ -211,6 +211,7 @@ dependencies = [
  "pretty_assertions",
  "test-case",
  "textwrap",
+ "utils",
 ]
 
 [[package]]
