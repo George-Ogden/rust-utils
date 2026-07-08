@@ -57,7 +57,6 @@ impl From<u32> for Id {
     }
 }
 
-#[cfg(feature = "test-utils")]
 impl From<Id> for u32 {
     #[inline]
     fn from(id: Id) -> Self {
@@ -65,7 +64,13 @@ impl From<Id> for u32 {
     }
 }
 
-#[cfg(feature = "test-utils")]
+impl From<Id> for i64 {
+    #[inline]
+    fn from(id: Id) -> Self {
+        Self::from(id.0)
+    }
+}
+
 impl From<Id> for u64 {
     #[inline]
     fn from(id: Id) -> Self {
@@ -73,7 +78,6 @@ impl From<Id> for u64 {
     }
 }
 
-#[cfg(feature = "test-utils")]
 impl From<Id> for usize {
     #[inline]
     fn from(id: Id) -> Self {
