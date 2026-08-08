@@ -1,0 +1,17 @@
+rules:
+  - id: cargo-version-with-path
+    languages: [generic]
+    severity: ERROR
+    message: Dependency has both (`path` or `git`) and `version`, remove the version.
+    paths:
+      include:
+        - "**/Cargo.toml"
+    options:
+      # Ellipsis must match same line.
+      generic_ellipsis_max_span: 0
+    patterns:
+      - pattern-either:
+          - pattern: '{ ... path = "..." ... version = "..." ... }'
+          - pattern: '{ ... version = "..." ... path = "..." ... }'
+          - pattern: '{ ... git = "..." ... version = "..." ... }'
+          - pattern: '{ ... version = "..." ... git = "..." ... }'

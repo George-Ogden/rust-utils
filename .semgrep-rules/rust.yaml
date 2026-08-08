@@ -39,7 +39,6 @@ rules:
           fn $X() {
             ...
           }
-
     fix-regex:
       regex: |
         #\[should_panic\]
@@ -52,14 +51,15 @@ rules:
       - rust
     severity: ERROR
     message: Manual `Deref` implementation. Use `#[derive(Deref)]` and `#[deref]` on the struct definition.
-    pattern-inside: |
-      impl ... Deref for ... {
-      ...
-      }
-    pattern: |
-      fn deref(&self) -> &Self::Target {
-          &self.$X
-      }
+    patterns:
+      - pattern-inside: |
+          impl Deref for $T {
+            ...
+          }
+      - pattern: |
+          fn deref(&self) -> &$U {
+            return &self.$X
+          }
 
   - id: missing-test-decorator
     languages:
@@ -95,3 +95,14 @@ rules:
     pattern: |
       $X.map($F).all_unique()
     fix: $X.all_unique_by_key($F)
+
+  - id: empty-vec-ref
+    languages:
+      - rust
+    severity: ERROR
+    message: Use reference of empty array instead of vector to avoid immediate dereference.
+    pattern-either:
+      - pattern: "&Vec::new()"
+      - pattern: "&Vec::<$T>::new()"
+      - pattern: "&vec![]"
+    fix: "&[]"
