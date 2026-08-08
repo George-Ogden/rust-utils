@@ -15,6 +15,7 @@ repos:
       - .gitignore: rust.gitignore
       - .pre-commit-config.yaml: rust.pre-commit-config.yaml
       - .semgrep-rules/rust.yaml
+      - .semgrep-rules/cargo.yaml
 
       - src/main.rs: main.rs
       - Cargo.toml
