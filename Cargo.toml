@@ -6,7 +6,7 @@ edition = "2024"
 [features]
 all-unique-by-key = ["dep:itertools"]
 id = ["dep:derive_more"]
-map-into = ["dep:fmap", "dep:itertools"]
+map-into = ["dep:fmap"]
 multi-zip = ["dep:itertools"]
 pair = []
 take-skip = []
