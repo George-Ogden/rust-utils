@@ -3,10 +3,10 @@ name: Check Cargo.toml version matches version.txt
 on:
   push:
     branches:
-      - master
+      - m
   pull_request:
     branches:
-      - master
+      - m
 
 jobs:
   check-cargo-toml:
