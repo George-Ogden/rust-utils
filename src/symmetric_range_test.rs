@@ -11,7 +11,7 @@ fn test_symmetric_range_valid() {
 }
 
 #[test]
-fn test_symmetric_range_empty() {
+fn test_symmetric_range_zero() {
     let range = symmetric_range(0);
     assert_eq!(range, 0..=0);
     assert_eq!(range, symmetric_range_unchecked(0));
