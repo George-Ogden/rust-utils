@@ -1,20 +1,52 @@
+use std::error::Error;
 use std::fmt::{self, Display};
+use std::num::ParseFloatError;
 use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, Mul, MulAssign, Not};
+use std::str::FromStr;
 use std::{
     cmp,
     hash::{self, Hash},
 };
 
-use derive_more::{Deref, Into};
+use derive_more::{Deref, Display, From, Into};
 
-#[derive(Debug, PartialEq, Eq, Hash)]
-pub enum Error {
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ProbError {
     NanValue,
     Negative,
     GreaterThanOne,
 }
 
-impl Error {
+impl Display for ProbError {
+    #[inline]
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::NanValue => write!(f, "Probability is NaN."),
+            Self::Negative => write!(f, "Probability is negative."),
+            Self::GreaterThanOne => write!(f, "Probability is greater than one."),
+        }
+    }
+}
+
+impl Error for ProbError {}
+
+#[derive(Debug, Display, Clone, PartialEq, Eq, From)]
+pub enum ParseError {
+    Parsing(ParseFloatError),
+    Value(ProbError),
+}
+
+impl Error for ParseError {
+    #[inline]
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        match self {
+            Self::Parsing(e) => Some(e),
+            Self::Value(e) => Some(e),
+        }
+    }
+}
+
+impl ProbError {
     fn from_invalid(value: f64) -> Self {
         if value.is_nan() {
             Self::NanValue
@@ -28,7 +60,7 @@ impl Error {
     }
 }
 
-type ProbResult = Result<Prob, Error>;
+type ProbResult = Result<Prob, ProbError>;
 
 #[derive(Debug, Clone, Copy, PartialEq, Into, Deref)]
 pub struct Prob(f64);
@@ -47,7 +79,7 @@ impl Prob {
             // Convert -0.0 to +0.0.
             Ok(Self(value + 0.0))
         } else {
-            Err(Error::from_invalid(value))
+            Err(ProbError::from_invalid(value))
         }
     }
 
@@ -66,7 +98,7 @@ impl Prob {
 }
 
 impl TryFrom<f64> for Prob {
-    type Error = Error;
+    type Error = ProbError;
 
     #[inline]
     fn try_from(value: f64) -> Result<Self, Self::Error> {
@@ -74,7 +106,7 @@ impl TryFrom<f64> for Prob {
     }
 }
 impl TryFrom<f32> for Prob {
-    type Error = Error;
+    type Error = ProbError;
 
     #[inline]
     fn try_from(value: f32) -> Result<Self, Self::Error> {
@@ -90,6 +122,14 @@ impl From<bool> for Prob {
     }
 }
 
+impl FromStr for Prob {
+    type Err = ParseError;
+
+    #[inline]
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Ok(Self::new(f64::from_str(s)?)?)
+    }
+}
 impl Display for Prob {
     #[inline]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

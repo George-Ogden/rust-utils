@@ -2,6 +2,7 @@
 use std::hash::{DefaultHasher, Hash, Hasher};
 
 use super::*;
+use clap::Parser;
 use is_close::is_close;
 use pretty_assertions::assert_eq;
 use test_case::test_case;
@@ -16,29 +17,29 @@ fn quick_hash<H: Hash>(value: &H) -> u64 {
     hasher.finish()
 }
 
-#[test_case(f64::NAN, Err(Error::NanValue))]
+#[test_case(f64::NAN, Err(ProbError::NanValue))]
 #[test_case(0.0, Ok(Prob(0.0)))]
 #[test_case(-0.0f64, Ok(Prob(0.0)))]
 #[test_case(0.1, Ok(Prob(0.1)))]
 #[test_case(0.5, Ok(Prob(0.5)))]
 #[test_case(0.99, Ok(Prob(0.99)))]
 #[test_case(1.0, Ok(Prob(1.0)))]
-#[test_case(0.0f64.next_down(), Err(Error::Negative))]
-#[test_case(1.0f64.next_up(), Err(Error::GreaterThanOne))]
-#[test_case(f64::INFINITY, Err(Error::GreaterThanOne))]
-#[test_case(f64::NEG_INFINITY, Err(Error::Negative))]
+#[test_case(0.0f64.next_down(), Err(ProbError::Negative))]
+#[test_case(1.0f64.next_up(), Err(ProbError::GreaterThanOne))]
+#[test_case(f64::INFINITY, Err(ProbError::GreaterThanOne))]
+#[test_case(f64::NEG_INFINITY, Err(ProbError::Negative))]
 fn test_prob_constructor(value: f64, expected: ProbResult) {
     assert_eq!(Prob::new(value), expected);
     assert_eq!(Prob::try_from(value), expected);
 }
 
-#[test_case(f32::NAN, Err(Error::NanValue))]
+#[test_case(f32::NAN, Err(ProbError::NanValue))]
 #[test_case(0.0, Ok(Prob(0.0)))]
 #[test_case(-0.0f32, Ok(Prob(0.0)))]
 #[test_case(0.5, Ok(Prob(0.5)))]
 #[test_case(1.0, Ok(Prob(1.0)))]
-#[test_case(0.0f32.next_down(), Err(Error::Negative))]
-#[test_case(1.0f32.next_up(), Err(Error::GreaterThanOne))]
+#[test_case(0.0f32.next_down(), Err(ProbError::Negative))]
+#[test_case(1.0f32.next_up(), Err(ProbError::GreaterThanOne))]
 fn test_prob_from_f32(value: f32, expected: ProbResult) {
     assert_eq!(Prob::try_from(value), expected);
 }
@@ -50,6 +51,7 @@ fn test_prob_from_f32(value: f32, expected: ProbResult) {
 #[test_case(0.25, "0.25")]
 fn test_prob_display(value: f64, expected: &'static str) {
     assert_eq!(prob(value).to_string(), expected);
+    assert_eq!(Prob::from_str(expected).unwrap(), prob(value));
 }
 
 #[test]
@@ -140,4 +142,21 @@ fn test_prob_saturating_add(left: f64, right: f64, expected: f64) {
     let mut value = left;
     value |= right;
     assert!(is_close!(value.get(), expected, abs_tol = 1e-18));
+}
+
+#[test]
+fn test_clap_parse_valid() {
+    #[derive(Debug, clap::Parser)]
+    struct Parser {
+        #[arg(long, default_value_t = Prob(0.5))]
+        prob: Prob,
+    }
+
+    let parser = Parser::parse_from([] as [&'static str; 0]);
+    assert_eq!(parser.prob, Prob(0.5));
+
+    let parser = Parser::parse_from(["command", "--prob", "0.75"]);
+    assert_eq!(parser.prob, Prob(0.75));
+
+    Parser::try_parse_from(["command", "--prob", "1.1"]).unwrap_err();
 }
