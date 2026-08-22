@@ -160,3 +160,13 @@ fn test_clap_parse_valid() {
 
     Parser::try_parse_from(["command", "--prob", "1.1"]).unwrap_err();
 }
+
+#[test]
+#[cfg(feature = "serde")]
+fn test_serialize_value() {
+    assert_eq!(serde_json::to_string(&prob(0.5)).unwrap(), "0.5");
+    assert_eq!(serde_json::to_string(&prob(0.6)).unwrap(), "0.6");
+    assert_eq!(serde_json::to_string(&prob(0.0)).unwrap(), "0.0");
+    assert_eq!(serde_json::to_string(&prob(1.0)).unwrap(), "1.0");
+    assert_eq!(serde_json::to_string(&[prob(0.2)]).unwrap(), "[0.2]");
+}

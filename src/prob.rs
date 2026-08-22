@@ -63,6 +63,7 @@ impl ProbError {
 type ProbResult = Result<Prob, ProbError>;
 
 #[derive(Debug, Clone, Copy, PartialEq, Into, Deref)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
 pub struct Prob(f64);
 
 impl Prob {
