@@ -1,3 +1,6 @@
+use std::hash::Hash;
+use std::{cmp, hash};
+
 use derive_more::{Deref, Display, Into};
 
 #[derive(Debug, PartialEq, Eq, Hash)]
@@ -34,10 +37,17 @@ impl Prob {
     /// The error describes this problem.
     pub fn new(value: f64) -> ProbResult {
         if (0.0..=1.0).contains(&value) {
-            Ok(Self(value))
+            // Convert -0.0 to +0.0.
+            Ok(Self(value + 0.0))
         } else {
             Err(Error::from_invalid(value))
         }
+    }
+
+    #[inline]
+    #[must_use]
+    pub const fn get(self) -> f64 {
+        self.0
     }
 }
 
@@ -56,6 +66,29 @@ impl TryFrom<f32> for Prob {
     #[inline]
     fn try_from(value: f32) -> Result<Self, Self::Error> {
         Self::try_from(f64::from(value))
+    }
+}
+
+impl PartialOrd for Prob {
+    #[inline]
+    fn partial_cmp(&self, other: &Self) -> Option<cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+impl Ord for Prob {
+    #[inline]
+    fn cmp(&self, other: &Self) -> cmp::Ordering {
+        self.get().partial_cmp(&other.get()).unwrap()
+    }
+}
+
+impl Eq for Prob {}
+
+impl Hash for Prob {
+    #[inline]
+    fn hash<H: hash::Hasher>(&self, state: &mut H) {
+        // The value is canonicalized during `Prob::new`.
+        self.get().to_bits().hash(state);
     }
 }
 
