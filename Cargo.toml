@@ -10,11 +10,11 @@ map-into = ["dep:fmap"]
 multi-zip = ["dep:itertools"]
 pair = []
 prob = ["dep:derive_more"]
-serde = ["prob", "dep:serde"]
+serde = ["dep:serde"]
 symmetric-range = []
 take-skip = []
 to-debug-string = []
-test-utils  = []
+test-utils  = ["serde"]
 
 [dependencies]
 derive_more = { version = "2.1.1", optional = true, features = ["full"] }
