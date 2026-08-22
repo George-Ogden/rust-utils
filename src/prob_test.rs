@@ -53,6 +53,14 @@ fn test_prob_display(value: f64, expected: &'static str) {
 }
 
 #[test]
+fn test_prob_from_bool() {
+    assert_eq!(Prob::from(true), Prob(1.0));
+    assert_eq!(Prob::from(false), Prob(0.0));
+    assert_eq!(Prob::ZERO, Prob(0.0));
+    assert_eq!(Prob::ONE, Prob(1.0));
+}
+
+#[test]
 fn test_prob_comparison() {
     assert!(prob(0.0) < prob(1.0));
     assert!(prob(1.0) > prob(0.0));

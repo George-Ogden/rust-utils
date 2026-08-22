@@ -34,6 +34,9 @@ type ProbResult = Result<Prob, Error>;
 pub struct Prob(f64);
 
 impl Prob {
+    const ZERO: Self = Self(0.0);
+    const ONE: Self = Self(1.0);
+
     #[inline]
     /// Convert an f64 to a probability.
     /// # Errors
@@ -63,13 +66,20 @@ impl TryFrom<f64> for Prob {
         Self::new(value)
     }
 }
-
 impl TryFrom<f32> for Prob {
     type Error = Error;
 
     #[inline]
     fn try_from(value: f32) -> Result<Self, Self::Error> {
         Self::try_from(f64::from(value))
+    }
+}
+impl From<bool> for Prob {
+    #[inline]
+    /// `true` is converted to `1.0`.
+    /// `false` is converted to `0.0`.
+    fn from(value: bool) -> Self {
+        if value { Self::ONE } else { Self::ZERO }
     }
 }
 
