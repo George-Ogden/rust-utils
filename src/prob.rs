@@ -1,5 +1,5 @@
 use std::fmt::{self, Display};
-use std::ops::{BitAnd, BitAndAssign, Mul, MulAssign, Not};
+use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, Mul, MulAssign, Not};
 use std::{
     cmp,
     hash::{self, Hash},
@@ -55,6 +55,13 @@ impl Prob {
     #[must_use]
     pub const fn get(self) -> f64 {
         self.0
+    }
+
+    #[inline]
+    /// Add the two values, clamping the value at `1.0`.
+    #[must_use]
+    pub const fn saturating_add(self, other: Self) -> Self {
+        Self(f64::min(self.get() + other.get(), 1.0))
     }
 }
 
@@ -156,6 +163,22 @@ impl BitAndAssign for Prob {
     #[inline]
     fn bitand_assign(&mut self, rhs: Self) {
         Self::mul_assign(self, rhs);
+    }
+}
+
+impl BitOr for Prob {
+    type Output = Self;
+
+    #[inline]
+    /// Perform `Self::saturating_add`.
+    fn bitor(self, rhs: Self) -> Self::Output {
+        self.saturating_add(rhs)
+    }
+}
+impl BitOrAssign for Prob {
+    #[inline]
+    fn bitor_assign(&mut self, rhs: Self) {
+        *self = *self | rhs;
     }
 }
 

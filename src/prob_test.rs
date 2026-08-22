@@ -99,11 +99,45 @@ fn test_prob_multiply(left: f64, right: f64, expected: f64) {
     let left = prob(left);
     let right = prob(right);
     assert!(is_close!((left * right).get(), expected, abs_tol = 1e-18));
+    assert!(is_close!((right * left).get(), expected, abs_tol = 1e-18));
     let mut value = left;
     value *= right;
     assert!(is_close!(value.get(), expected, abs_tol = 1e-18));
     assert!(is_close!((left & right).get(), expected, abs_tol = 1e-18));
     let mut value = left;
     value &= right;
+    assert!(is_close!(value.get(), expected, abs_tol = 1e-18));
+}
+
+#[test_case(0.0, 1.0, 1.0)]
+#[test_case(0.1, 0.9, 1.0)]
+#[test_case(1.0, 1.0, 1.0)]
+#[test_case(0.0, 0.0, 0.0)]
+#[test_case(0.2, 0.1, 0.3)]
+#[test_case(0.45, 0.1, 0.55)]
+#[test_case(0.5, 0.75, 1.0)]
+#[test_case(0.5, 0.499, 0.999)]
+#[test_case(0.5, 0.501, 1.0)]
+fn test_prob_saturating_add(left: f64, right: f64, expected: f64) {
+    let left = prob(left);
+    let right = prob(right);
+    assert!(is_close!(
+        left.saturating_add(right).get(),
+        expected,
+        abs_tol = 1e-18
+    ));
+    assert!(is_close!(
+        right.saturating_add(left).get(),
+        expected,
+        abs_tol = 1e-18
+    ));
+    assert!(is_close!(
+        Prob::saturating_add(left, right).get(),
+        expected,
+        abs_tol = 1e-18
+    ));
+    assert!(is_close!((left | right).get(), expected, abs_tol = 1e-18));
+    let mut value = left;
+    value |= right;
     assert!(is_close!(value.get(), expected, abs_tol = 1e-18));
 }
