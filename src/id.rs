@@ -1,4 +1,4 @@
-use derive_more::Display;
+use derive_more::{Display, From, Into};
 use std::sync::atomic::{AtomicU32, Ordering};
 
 #[cfg(not(feature = "test-utils"))]
@@ -34,7 +34,8 @@ fn next_id() -> u32 {
     GLOBAL_ID.with(|id| id.fetch_add(1, Ordering::Relaxed))
 }
 
-#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq, Hash, Display)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq, Hash, Display, Into)]
+#[cfg_attr(feature = "test-utils", derive(From))]
 /// Unique auto-incrementing ids.
 /// This is incremented with a global relaxed atomic.
 /// During testing, this is thread-local so the [`set_global_id`] and [`reset_global_id`] methods can control the next id.
@@ -46,21 +47,6 @@ impl Id {
     /// Get the next unique id.
     pub fn next() -> Self {
         Self(next_id())
-    }
-}
-
-#[cfg(feature = "test-utils")]
-impl From<u32> for Id {
-    #[inline]
-    fn from(value: u32) -> Self {
-        Self(value)
-    }
-}
-
-impl From<Id> for u32 {
-    #[inline]
-    fn from(id: Id) -> Self {
-        id.0
     }
 }
 
