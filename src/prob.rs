@@ -74,13 +74,27 @@ impl Prob {
 
     #[inline]
     /// Convert an f64 to a probability.
+    /// # Panics
+    /// With `debug_assertions`, this will check that `value` is between zero and one.
+    /// Otherwise, the result of any methods will not make sense.
+    #[must_use]
+    pub fn new_unchecked(value: f64) -> Self {
+        debug_assert!(
+            (0.0..=1.0).contains(&value),
+            "Invalid probability `{value}`."
+        );
+        Self(value + 0.0)
+    }
+
+    #[inline]
+    /// Convert an f64 to a probability.
     /// # Errors
     /// The fails if the value is NaN, negative or greater than one.
     /// The error describes this problem.
     pub fn new(value: f64) -> ProbResult {
         if (0.0..=1.0).contains(&value) {
             // Convert -0.0 to +0.0.
-            Ok(Self(value + 0.0))
+            Ok(Self::new_unchecked(value))
         } else {
             Err(ProbError::from_invalid(value))
         }
