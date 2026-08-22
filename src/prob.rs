@@ -1,4 +1,5 @@
 use std::hash::Hash;
+use std::ops::Not;
 use std::{cmp, hash};
 
 use derive_more::{Deref, Display, Into};
@@ -89,6 +90,16 @@ impl Hash for Prob {
     fn hash<H: hash::Hasher>(&self, state: &mut H) {
         // The value is canonicalized during `Prob::new`.
         self.get().to_bits().hash(state);
+    }
+}
+
+impl Not for Prob {
+    type Output = Self;
+
+    #[inline]
+    /// Return the negation (1.0 - p).
+    fn not(self) -> Self::Output {
+        Self(1.0 - self.get())
     }
 }
 

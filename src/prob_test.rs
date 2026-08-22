@@ -2,6 +2,7 @@
 use std::hash::{DefaultHasher, Hash, Hasher};
 
 use super::*;
+use is_close::is_close;
 use pretty_assertions::assert_eq;
 use test_case::test_case;
 
@@ -60,4 +61,14 @@ fn test_prob_comparison() {
     assert_eq!(quick_hash(&prob(0.5)), quick_hash(&prob(0.5)));
     assert_eq!(quick_hash(&prob(-0.0)), quick_hash(&prob(0.0)));
     assert_ne!(quick_hash(&prob(0.2)), quick_hash(&prob(0.3)));
+}
+
+#[test_case(0.0, 1.0)]
+#[test_case(0.1, 0.9)]
+#[test_case(0.0f64, 1.0f64)]
+fn test_prob_negate(left: f64, right: f64) {
+    let left = prob(left);
+    let right = prob(right);
+    assert!(is_close!((!left).get(), right.get(), abs_tol = 1e-18));
+    assert!(is_close!(left.get(), (!right).get(), abs_tol = 1e-18));
 }
