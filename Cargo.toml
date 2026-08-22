@@ -9,14 +9,14 @@ id = ["dep:derive_more"]
 map-into = ["dep:fmap"]
 multi-zip = ["dep:itertools"]
 pair = []
-prob = []
+prob = ["dep:derive_more"]
 symmetric-range = []
 take-skip = []
 to-debug-string = []
 test-utils  = []
 
 [dependencies]
-derive_more = { version = "2.1.1", features = ["display"], optional = true }
+derive_more = { version = "2.1.1", optional = true, features = ["full"] }
 fmap = { version = "0.8.3", optional = true }
 itertools = { version = "0.14.0", optional = true }
 

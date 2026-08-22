@@ -1,3 +1,5 @@
+use derive_more::{Deref, Display, Into};
+
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub enum Error {
     NanValue,
@@ -21,7 +23,7 @@ impl Error {
 
 type ProbResult = Result<Prob, Error>;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Display, Into, Deref)]
 pub struct Prob(f64);
 
 impl Prob {
