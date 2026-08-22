@@ -1,8 +1,11 @@
-use std::hash::Hash;
+use std::fmt::{self, Display};
 use std::ops::Not;
-use std::{cmp, hash};
+use std::{
+    cmp,
+    hash::{self, Hash},
+};
 
-use derive_more::{Deref, Display, Into};
+use derive_more::{Deref, Into};
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub enum Error {
@@ -27,7 +30,7 @@ impl Error {
 
 type ProbResult = Result<Prob, Error>;
 
-#[derive(Debug, Clone, Copy, PartialEq, Display, Into, Deref)]
+#[derive(Debug, Clone, Copy, PartialEq, Into, Deref)]
 pub struct Prob(f64);
 
 impl Prob {
@@ -67,6 +70,17 @@ impl TryFrom<f32> for Prob {
     #[inline]
     fn try_from(value: f32) -> Result<Self, Self::Error> {
         Self::try_from(f64::from(value))
+    }
+}
+
+impl Display for Prob {
+    #[inline]
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self.get() {
+            0.0 => write!(f, "0.0"),
+            1.0 => write!(f, "1.0"),
+            p => write!(f, "{p}"),
+        }
     }
 }
 

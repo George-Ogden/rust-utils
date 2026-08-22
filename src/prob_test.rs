@@ -43,6 +43,15 @@ fn test_prob_from_f32(value: f32, expected: ProbResult) {
     assert_eq!(Prob::try_from(value), expected);
 }
 
+#[test_case(0.0f64, "0.0")]
+#[test_case(-0.0, "0.0")]
+#[test_case(1.0, "1.0")]
+#[test_case(0.5, "0.5")]
+#[test_case(0.25, "0.25")]
+fn test_prob_display(value: f64, expected: &'static str) {
+    assert_eq!(prob(value).to_string(), expected);
+}
+
 #[test]
 fn test_prob_comparison() {
     assert!(prob(0.0) < prob(1.0));
