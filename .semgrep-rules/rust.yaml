@@ -74,16 +74,18 @@ rules:
       - metavariable-regex:
           metavariable: $NAME
           regex: ^test_.*$
-
       - pattern-not: |
           #[test]
           fn $NAME(...) {
             ...
           }
-
       - pattern-not: |
           #[test_case(...)]
           fn $NAME(...) {
+            ...
+          }
+      - pattern-not-inside: |
+          impl $ANY {
             ...
           }
 
