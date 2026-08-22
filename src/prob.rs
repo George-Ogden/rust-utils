@@ -1,5 +1,5 @@
 use std::fmt::{self, Display};
-use std::ops::Not;
+use std::ops::{BitAnd, BitAndAssign, Mul, MulAssign, Not};
 use std::{
     cmp,
     hash::{self, Hash},
@@ -114,6 +114,38 @@ impl Not for Prob {
     /// Return the negation (1.0 - p).
     fn not(self) -> Self::Output {
         Self(1.0 - self.get())
+    }
+}
+
+impl Mul for Prob {
+    type Output = Self;
+
+    #[inline]
+    fn mul(self, rhs: Self) -> Self::Output {
+        Self(self.get() * rhs.get())
+    }
+}
+impl MulAssign for Prob {
+    #[inline]
+    fn mul_assign(&mut self, rhs: Self) {
+        *self = *self * rhs;
+    }
+}
+
+impl BitAnd for Prob {
+    type Output = Self;
+
+    #[inline]
+    #[expect(clippy::suspicious_arithmetic_impl)]
+    /// Returns the product of the two probabilities.
+    fn bitand(self, rhs: Self) -> Self::Output {
+        self * rhs
+    }
+}
+impl BitAndAssign for Prob {
+    #[inline]
+    fn bitand_assign(&mut self, rhs: Self) {
+        Self::mul_assign(self, rhs);
     }
 }
 
