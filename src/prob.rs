@@ -11,6 +11,7 @@ use std::{
 use derive_more::{Deref, Display, From, Into};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+/// Error from converting an f64 to a probability.
 pub enum ProbError {
     NanValue,
     Negative,
@@ -64,6 +65,7 @@ type ProbResult = Result<Prob, ProbError>;
 
 #[derive(Debug, Clone, Copy, PartialEq, Into, Deref)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
+/// Probability between 0 and 1.
 pub struct Prob(f64);
 
 impl Prob {
@@ -86,13 +88,15 @@ impl Prob {
 
     #[inline]
     #[must_use]
+    #[doc(alias = "into_inner")]
+    /// Return the inner f64.
     pub const fn get(self) -> f64 {
         self.0
     }
 
     #[inline]
-    /// Add the two values, clamping the value at `1.0`.
     #[must_use]
+    /// Add the two values, clamping the value at `1.0`.
     pub const fn saturating_add(self, other: Self) -> Self {
         Self(f64::min(self.get() + other.get(), 1.0))
     }
