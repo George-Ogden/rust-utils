@@ -32,6 +32,23 @@ fn test_option_some_map_into() {
 }
 
 #[test]
+fn test_result_ok_map_into() {
+    let x: Result<i8, ()> = Ok(3);
+    assert_eq!(x.map_into::<f64>(), Ok(3.0));
+}
+
+#[test]
+fn test_result_err_map_into() {
+    let x: Result<i8, ()> = Err(());
+    assert_eq!(x.map_into::<f64>(), Err(()));
+}
+
+#[test]
+fn test_result_err_map_into_same_type() {
+    let x: Result<i8, i8> = Err(3);
+    assert_eq!(x.map_into::<f64>(), Err(3));
+}
+#[test]
 fn test_hash_set_map_into() {
     let x = HashSet::from_iter([0, 1, 2]);
     assert_eq!(
