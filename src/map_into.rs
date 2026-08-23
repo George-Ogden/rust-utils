@@ -26,6 +26,18 @@ impl<T> MapInto<T> for Option<T> {
     }
 }
 
+impl<T, E> MapInto<T> for Result<T, E> {
+    type Container<X> = Result<X, E>;
+
+    #[inline]
+    fn map_into<U>(self) -> Self::Container<U>
+    where
+        T: Into<U>,
+    {
+        self.map(Into::into)
+    }
+}
+
 impl<T> MapInto<T> for Vec<T> {
     type Container<X> = Vec<X>;
 
