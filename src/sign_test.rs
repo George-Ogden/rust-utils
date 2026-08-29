@@ -38,3 +38,15 @@ fn test_sign_f32(value: f32, expected: f32) {
         assert_eq!(result, expected);
     }
 }
+
+#[test_case(0, 0)]
+#[test_case(2, 1)]
+#[test_case(1, 1)]
+#[test_case(-1i32, -1)]
+#[test_case(-3, -1)]
+#[test_case(i32::MIN, -1)]
+#[test_case(i32::MAX, 1)]
+fn test_sign_i32(value: i32, expected: i32) {
+    let result = sign(value);
+    assert_eq!(result, expected);
+}

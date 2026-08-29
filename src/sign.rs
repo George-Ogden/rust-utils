@@ -1,16 +1,9 @@
-use std::cmp::Ordering;
-
-use num_traits::Float;
+use num_traits::{Signed, Zero, signum};
 
 #[inline]
 #[must_use]
-pub fn sign<T: Float>(x: T) -> T {
-    match x.partial_cmp(&T::zero()) {
-        Some(Ordering::Less) => -T::one(),
-        Some(Ordering::Greater) => T::one(),
-        Some(Ordering::Equal) => T::zero(),
-        None => T::nan(),
-    }
+pub fn sign<T: Signed + Zero>(x: T) -> T {
+    if x.is_zero() { T::zero() } else { signum(x) }
 }
 
 #[cfg(test)]
