@@ -435,6 +435,7 @@ dependencies = [
  "fmap",
  "is_close",
  "itertools",
+ "num-traits",
  "ordered-float",
  "pretty_assertions",
  "serde",
