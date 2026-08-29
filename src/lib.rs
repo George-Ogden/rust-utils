@@ -10,6 +10,8 @@ pub mod multi_zip;
 pub mod pair;
 #[cfg(feature = "prob")]
 pub mod prob;
+#[cfg(feature = "sign")]
+pub mod sign;
 #[cfg(feature = "symmetric-range")]
 pub mod symmetric_range;
 #[cfg(feature = "take-skip")]
