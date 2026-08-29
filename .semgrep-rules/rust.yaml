@@ -61,6 +61,21 @@ rules:
             return &self.$X
           }
 
+  - id: manual-from-impl
+    languages:
+      - rust
+    severity: ERROR
+    message: Manual `From` implementation. Use `#[derive(Into)]` and `#[into]` on the struct definition.
+    patterns:
+      - pattern-inside: |
+          impl From<$A> for $B {
+            ...
+          }
+      - pattern: |
+          fn from($X: $T) -> $U {
+            return $X.$Y
+          }
+
   - id: missing-test-decorator
     languages:
       - rust
@@ -108,3 +123,28 @@ rules:
       - pattern: "&Vec::<$T>::new()"
       - pattern: "&vec![]"
     fix: "&[]"
+
+  - id: manual-random-ratio
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `StdRng::random_ratio` to get whole number ratios.
+    pattern: $R.random_bool($X / $Y)
+    fix: $R.random_ratio($X, $Y)
+
+  - id: strip-float-suffix
+    languages:
+      - rust
+    severity: ERROR
+    message: Convert floats to integers (usually left over from `manual-random-ratio` fix).
+    patterns:
+      - pattern: $R.random_ratio($X, $Y)
+      - metavariable-regex:
+          metavariable: $X
+          regex: (\d+)\.0(_?(f32|f64))?
+      - metavariable-regex:
+          metavariable: $Y
+          regex: (\d+)\.0(_?(f32|f64))?
+    fix-regex:
+      regex: (\d+)\.0(_?(f32|f64))?
+      replacement: \1

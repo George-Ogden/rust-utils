@@ -428,13 +428,14 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 
 [[package]]
 name = "utils"
-version = "0.11.2"
+version = "0.12.0"
 dependencies = [
  "clap",
  "derive_more",
  "fmap",
  "is_close",
  "itertools",
+ "num-traits",
  "ordered-float",
  "pretty_assertions",
  "serde",
