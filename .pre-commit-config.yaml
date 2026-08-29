@@ -24,7 +24,7 @@ repos:
         args: [-b, m]
       - id: end-of-file-fixer
         stages: [pre-commit]
-        exclude: .rs$
+        exclude: \.rs$
       - id: mixed-line-ending
         stages: [pre-commit]
       - id: trailing-whitespace
@@ -39,7 +39,7 @@ repos:
     rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
-        exclude: .snap$
+        exclude: \.snap$
 
   - repo: https://github.com/scop/pre-commit-shfmt/
     rev: v3.13.1-1
@@ -90,7 +90,7 @@ repos:
         args: [--with-metadata, --fix]
 
   - repo: https://github.com/semgrep/pre-commit/
-    rev: v1.174.0
+    rev: v1.175.0
     hooks:
       - id: semgrep
         require_serial: true
@@ -111,6 +111,13 @@ repos:
     rev: v2.4.3
     hooks:
       - id: codespell
+        exclude: \.lock$
+        args:
+          - -f
+          - --regex
+          # Copied from https://github.com/codespell-project/codespell/issues/2730#issuecomment-1657006554.
+          - |
+            (?<![a-zà-öø-ÿ])[a-zà-öø-ÿ'`]+|[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ'`]*|[a-zà-öø-ÿ]+'[a-zà-öø-ÿ]*|[a-zà-öø-ÿ]+(?=[_-])|[a-zà-öø-ÿ]+(?=[A-ZÀ-ÖØ-Þ])|\d+
 
   - repo: https://github.com/George-Ogden/pre-commit-hooks/
     rev: v4.1.1
@@ -118,9 +125,9 @@ repos:
       - id: dbg-check
       - id: todo-check
         exclude: (?x)^(
-          .pre-commit-config.yaml|
-          .gitignore|
-          Cargo.toml
+          \.pre-commit-config\.yaml|
+          \.gitignore|
+          Cargo\.toml
           )$
       - id: spell-check-commit-msgs
       - id: mirror-auto-msg
