@@ -78,11 +78,8 @@ impl Prob {
     /// With `debug_assertions`, this will check that `value` is between zero and one.
     /// Otherwise, the result of any methods will not make sense.
     #[must_use]
-    pub fn new_unchecked(value: f64) -> Self {
-        debug_assert!(
-            (0.0..=1.0).contains(&value),
-            "Invalid probability `{value}`."
-        );
+    pub const fn new_unchecked(value: f64) -> Self {
+        debug_assert!(value >= 0.0 && value <= 1.0, "Invalid probability.");
         Self(value + 0.0)
     }
 
