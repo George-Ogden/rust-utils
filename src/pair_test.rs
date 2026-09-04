@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use super::*;
 use pretty_assertions::assert_eq;
 
@@ -26,4 +28,11 @@ fn test_tuple_ref_pair() {
 fn test_tuple_rev_pair() {
     let pair = (true, "right");
     assert_eq!(pair.rev(), ("right", true));
+}
+
+#[test]
+fn test_pair_clone() {
+    let map = BTreeMap::from_iter([(1, 2), (3, 4), (6, 5)]);
+    let cloned = map.iter().map(PairClone::clone).collect();
+    assert_eq!(map, cloned);
 }
