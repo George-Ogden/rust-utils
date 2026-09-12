@@ -90,7 +90,7 @@ repos:
         args: [--with-metadata, --fix]
 
   - repo: https://github.com/semgrep/pre-commit/
-    rev: v1.176.0
+    rev: v1.177.0
     hooks:
       - id: semgrep
         require_serial: true
