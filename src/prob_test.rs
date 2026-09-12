@@ -33,6 +33,11 @@ fn test_prob_constructor(value: f64, expected: ProbResult) {
     assert_eq!(Prob::try_from(value), expected);
 }
 
+#[test]
+fn test_prob_default() {
+    assert_eq!(Prob::default(), Prob(0.0));
+}
+
 #[test_case(f32::NAN, Err(ProbError::NanValue))]
 #[test_case(0.0, Ok(Prob(0.0)))]
 #[test_case(-0.0f32, Ok(Prob(0.0)))]

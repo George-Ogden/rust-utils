@@ -34,8 +34,7 @@ fn next_id() -> u32 {
     GLOBAL_ID.with(|id| id.fetch_add(1, Ordering::Relaxed))
 }
 
-#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq, Hash, Display, Into)]
-#[cfg_attr(feature = "test-utils", derive(From))]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq, Hash, Display, Into, From)]
 /// Unique auto-incrementing ids.
 /// This is incremented with a global relaxed atomic.
 /// During testing, this is thread-local so the [`set_global_id`] and [`reset_global_id`] methods can control the next id.

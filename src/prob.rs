@@ -63,7 +63,7 @@ impl ProbError {
 
 type ProbResult = Result<Prob, ProbError>;
 
-#[derive(Debug, Clone, Copy, PartialEq, Into, Deref)]
+#[derive(Debug, Clone, Copy, PartialEq, Into, Deref, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 /// Probability between 0 and 1.
 pub struct Prob(f64);
