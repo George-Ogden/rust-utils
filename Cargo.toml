@@ -3,6 +3,9 @@ name = "utils"
 version = "0.12.2"
 edition = "2024"
 
+[package.metadata.cargo-shear]
+ignored = ["utils"]
+
 [features]
 all-unique-by-key = ["dep:itertools"]
 id = ["dep:derive_more"]
@@ -36,9 +39,6 @@ test-case = "3.3.1"
 textwrap = "0.16.2"
 utils = { path = ".", features = ["test-utils"] }
 
-[package.metadata.cargo-machete]
-ignored = ["utils"]
-
 [profile.release]
 lto = "fat"
 codegen-units = 1
@@ -48,12 +48,12 @@ opt-level = 3
 inherits = "release"
 debug = true
 
+[lints]
+workspace = true
+
 [workspace]
 members = []
 resolver = "2"
-
-[lints]
-workspace = true
 
 [workspace.lints.rust]
 warnings = "deny"
@@ -123,6 +123,7 @@ single_call_fn = "allow"
 single_char_lifetime_names = "allow"
 std_instead_of_alloc = "allow"
 std_instead_of_core = "allow"
+struct_field_names = "allow"
 suboptimal_flops = "allow"
 todo = "allow"
 unimplemented = "allow"

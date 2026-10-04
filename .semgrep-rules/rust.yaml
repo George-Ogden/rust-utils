@@ -99,6 +99,11 @@ rules:
           fn $NAME(...) {
             ...
           }
+      - pattern-not: |
+          #[test_matrix(...)]
+          fn $NAME(...) {
+            ...
+          }
       - pattern-not-inside: |
           impl $ANY {
             ...
@@ -148,3 +153,40 @@ rules:
     fix-regex:
       regex: (\d+)\.0(_?(f32|f64))?
       replacement: \1
+
+  - id: t-iterator-type-parameter
+    languages:
+      - rust
+    severity: ERROR
+    message: "`T` is often the default name, but use another letter (preferably `I`) instead."
+    pattern-either:
+      - pattern: |
+          fn $NAME<T: IntoIterator>(...) {...}
+      - pattern: |
+          fn $NAME<T: Iterator>(...) {...}
+
+  - id: pub-test
+    languages:
+      - generic
+    severity: ERROR
+    message: "`pub` visibility on a test function (remove)."
+    paths:
+      include:
+        - "*.rs"
+    options:
+      generic_ellipsis_max_span: 0
+    patterns:
+      - pattern-either:
+          - pattern: |
+              #[test]
+              pub fn ...
+          - pattern: |
+              #[test]
+              #[should_panic]
+              pub fn ...
+          - pattern: |
+              #[test_case(...)]
+              pub fn ...
+          - pattern: |
+              #[test_matrix(...)]
+              pub fn ...

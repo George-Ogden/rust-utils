@@ -1,11 +1,13 @@
 # DANGER: EDIT AT YOUR OWN RISK. Track this file in version control so that others can sync files correctly.
-- commit: 6d873e227f6fd11eae20f42e1df3dae91e2a9b3b
+- commit: addffdde225bc8fbb4a3c2f3bf2bbf08b8aa4773
   files:
+  - .cargo/toolfmt.toml
   - .github/release.yaml
   - .github/rust-lint.yaml
   - .github/rust-test.yaml
   - .github/rust-version-check.yaml
   - .semgrep-rules/cargo.yaml
+  - .semgrep-rules/pre-commit.yaml
   - .semgrep-rules/rust.yaml
   - Cargo.lock
   - Cargo.toml
