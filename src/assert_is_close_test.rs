@@ -37,3 +37,29 @@ fn assert_is_close_call_count_far() {
     };
     assert_is_close!(call_once_only(3.0), 4.0);
 }
+
+#[test]
+fn assert_is_close_abs_tol_close() {
+    let x = 0.1;
+    let y = 0.2;
+    assert_is_close!(x, y, abs_tol = 0.1);
+}
+
+#[test]
+#[should_panic = "assertion `is_close!(0.1, 0.3, abs_tol = 0.1)` failed"]
+fn assert_is_close_abs_tol_far() {
+    let x = 0.1;
+    let y = 0.3;
+    assert_is_close!(x, y, abs_tol = 0.1);
+}
+
+#[test]
+fn assert_is_close_multiple_arguments_close() {
+    assert_is_close!(10.0, 9.0, rel_tol = 1e-1, method = is_close::WEAK);
+}
+
+#[test]
+#[should_panic = "assertion `is_close!(9.0, 10.0, rel_tol = 1e-1, method = is_close::STRONG)` failed"]
+fn assert_is_close_multiple_arguments_far() {
+    assert_is_close!(9.0, 10.0, rel_tol = 1e-1, method = is_close::STRONG);
+}
