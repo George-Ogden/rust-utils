@@ -6,12 +6,11 @@ pub use is_close;
 /// Pass in any settings supported by `is_close::is_close!`.
 macro_rules! assert_is_close {
     ($left:expr, $right:expr $(, $set:ident = $val:expr)*) => {
-        use $crate::assert_is_close::is_close::is_close;
         let left = $left;
         let right = $right;
 
         assert!(
-            is_close!(left, right $(, $set = $val )*),
+            $crate::assert_is_close::is_close::is_close!(left, right $(, $set = $val )*),
             r"assertion `is_close!({left:?}, {right:?}{})` failed",
             stringify!($(, $set = $val)*)
         );
