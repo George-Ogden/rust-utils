@@ -1,5 +1,7 @@
 #[cfg(feature = "all-unique-by-key")]
 pub mod all_unique_by_key;
+#[cfg(feature = "assert-is-close")]
+pub mod assert_is_close;
 #[cfg(feature = "id")]
 pub mod id;
 #[cfg(feature = "map-into")]

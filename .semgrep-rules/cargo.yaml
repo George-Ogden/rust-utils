@@ -13,3 +13,30 @@ rules:
       - pattern-either:
           - pattern: '{ ... path = "..." ... version = "..." ... }'
           - pattern: '{ ... version = "..." ... path = "..." ... }'
+
+  - id: workspace-dependencies
+    paths:
+      include:
+        - "**/Cargo.toml"
+      exclude:
+        - "/Cargo.toml"
+    options:
+      # Ellipsis must match same line.
+      generic_ellipsis_max_span: 0
+    message: Found a non-workspace dependency. Use workspace dependencies instead.
+    languages: [generic]
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $P = { ... version = ... }
+          - pattern: |
+              $P = { ... path = ... }
+          - pattern: |
+              $P = { ... git = ... }
+          - pattern: |
+              $P = "$MA.$MI.$PA"
+      - pattern-not: |
+          version = "$MA.$MI.$PA"
+      - pattern-not: |
+          $P = { ... path = "." ... }

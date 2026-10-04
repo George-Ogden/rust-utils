@@ -1,9 +1,13 @@
 [package]
 name = "utils"
-version = "0.12.2"
+version = "0.13.0"
 edition = "2024"
 
+[package.metadata.cargo-shear]
+ignored = ["utils"]
+
 [features]
+assert-is-close = ["dep:is_close"]
 all-unique-by-key = ["dep:itertools"]
 id = ["dep:derive_more"]
 map-into = ["dep:fmap"]
@@ -20,6 +24,7 @@ test-utils  = ["serde"]
 [dependencies]
 derive_more = { version = "2.1.1", optional = true, features = ["full"] }
 fmap = { version = "0.8.3", optional = true }
+is_close = { version = "0.1.3", optional = true }
 itertools = { version = "0.14.0", optional = true }
 num-traits = { version = "0.2.19", optional = true }
 serde = { version = "1.0.229", features = ["derive"], optional = true }
@@ -36,9 +41,6 @@ test-case = "3.3.1"
 textwrap = "0.16.2"
 utils = { path = ".", features = ["test-utils"] }
 
-[package.metadata.cargo-machete]
-ignored = ["utils"]
-
 [profile.release]
 lto = "fat"
 codegen-units = 1
@@ -48,12 +50,12 @@ opt-level = 3
 inherits = "release"
 debug = true
 
+[lints]
+workspace = true
+
 [workspace]
 members = []
 resolver = "2"
-
-[lints]
-workspace = true
 
 [workspace.lints.rust]
 warnings = "deny"
@@ -123,6 +125,7 @@ single_call_fn = "allow"
 single_char_lifetime_names = "allow"
 std_instead_of_alloc = "allow"
 std_instead_of_core = "allow"
+struct_field_names = "allow"
 suboptimal_flops = "allow"
 todo = "allow"
 unimplemented = "allow"
