@@ -84,6 +84,7 @@ repos:
         stages: [pre-commit]
       - id: clippy
         alias: clippy-check
+        stages: [pre-commit]
         args: [--all-features, --all-targets, --workspace]
 
   - repo: https://github.com/DevinR528/cargo-sort/
