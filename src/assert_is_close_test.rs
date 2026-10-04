@@ -1,0 +1,39 @@
+#[test]
+fn assert_is_close_no_args_close() {
+    let x = 0.1 * 0.1;
+    let y = 0.01;
+    assert_ne!(x, y);
+    assert_is_close!(x, y);
+}
+
+#[test]
+#[should_panic = "assertion `is_close!(0.010000000000000002, 0.02)` failed"]
+fn assert_is_close_no_args_far() {
+    let x = 0.1 * 0.1;
+    let y = 0.02;
+    assert_ne!(x, y);
+    assert_is_close!(x, y);
+}
+
+#[test]
+fn assert_is_close_call_count_close() {
+    let mut count = 0;
+    let mut call_once_only = move |x| {
+        assert_eq!(count, 0, "called twice!");
+        count += 1;
+        x
+    };
+    assert_is_close!(call_once_only(3.0), 3.0);
+}
+
+#[test]
+#[should_panic = "assertion `is_close!(3.0, 4.0)` failed"]
+fn assert_is_close_call_count_far() {
+    let mut count = 0;
+    let mut call_once_only = move |x| {
+        assert_eq!(count, 0, "called twice!");
+        count += 1;
+        x
+    };
+    assert_is_close!(call_once_only(3.0), 4.0);
+}
