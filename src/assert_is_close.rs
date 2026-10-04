@@ -1,7 +1,10 @@
+#[doc(hidden)]
+pub use is_close;
+
 #[macro_export]
 macro_rules! assert_is_close {
     ($left:expr, $right:expr $(, $set:ident = $val:expr)*) => {
-        use is_close::is_close;
+        use $crate::assert_is_close::is_close::is_close;
         let left = $left;
         let right = $right;
 
