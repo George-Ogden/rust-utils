@@ -20,7 +20,7 @@ sign = ["dep:num-traits"]
 symmetric-range = []
 take-skip = []
 to-debug-string = []
-test-utils = ["assert-is-close", "dep:ordered-float", "serde"]
+test-utils = ["assert-is-close", "dep:ordered-float", "dep:fmap", "serde"]
 
 [dependencies]
 derive_more = { version = "2.1.1", optional = true, features = ["full"] }

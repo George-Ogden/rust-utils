@@ -1,4 +1,7 @@
+#![expect(clippy::needless_pass_by_value)]
+
 use super::*;
+use fmap::Functor;
 use itertools::{
     EitherOrBoth::{self, Both, Left, Right},
     Itertools,
@@ -17,7 +20,7 @@ use test_case::test_case;
 fn test_merge_join_by_key<
     T: Clone + Debug + PartialEq,
     U: Ord,
-    F: Clone + Fn(&T) -> U,
+    F: Clone + FnMut(&T) -> U,
     const K: usize,
     const M: usize,
     const N: usize,
@@ -27,19 +30,25 @@ fn test_merge_join_by_key<
     key: F,
     expected: [EitherOrBoth<T, T>; K],
 ) {
+    let expected = expected.to_vec();
     {
         let merged = left
             .clone()
             .into_iter()
             .merge_join_by_key(right.clone(), key.clone())
             .collect_vec();
-        assert_eq!(merged, expected.to_vec());
+        assert_eq!(merged, expected);
+    }
+
+    {
+        let merged = merge_join_by_key(left.clone(), right.clone(), key.clone()).collect_vec();
+        assert_eq!(merged, expected);
     }
 
     {
         let (right, left) = (left, right);
         let flipped_merged = left.into_iter().merge_join_by_key(right, key).collect_vec();
-        let flipped_expected = expected.map(|either| match either {
+        let flipped_expected = expected.fmap(|either| match either {
             Both(left, right) => Both(right, left),
             Left(left) => Right(left),
             Right(right) => Left(right),
