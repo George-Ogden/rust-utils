@@ -190,3 +190,21 @@ rules:
           - pattern: |
               #[test_matrix(...)]
               pub fn ...
+
+  - id: assert-is-close
+    languages:
+      - generic
+    severity: ERROR
+    message: Use `assert_is_close!` for clearer error messages.
+    pattern: |
+      assert!(is_close!(...))
+
+  - id: split-assert-is-close
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `assert_is_close!` instead of an if statement.
+    pattern: |
+      if !is_close!(...) {
+        assert_eq!(...);
+      }
