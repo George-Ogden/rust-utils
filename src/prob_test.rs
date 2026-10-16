@@ -1,9 +1,10 @@
 #![expect(clippy::needless_pass_by_value)]
 use std::hash::{DefaultHasher, Hash, Hasher};
 
+use crate::assert_is_close;
+
 use super::*;
 use clap::Parser;
-use is_close::is_close;
 use pretty_assertions::assert_eq;
 use test_case::test_case;
 
@@ -93,8 +94,8 @@ fn test_prob_comparison() {
 fn test_prob_negate(left: f64, right: f64) {
     let left = prob(left);
     let right = prob(right);
-    assert!(is_close!((!left).get(), right.get(), abs_tol = 1e-18));
-    assert!(is_close!(left.get(), (!right).get(), abs_tol = 1e-18));
+    assert_is_close!((!left).get(), right.get(), abs_tol = 1e-18);
+    assert_is_close!(left.get(), (!right).get(), abs_tol = 1e-18);
 }
 
 #[test_case(0.0, 1.0, 0.0)]
@@ -105,15 +106,15 @@ fn test_prob_negate(left: f64, right: f64) {
 fn test_prob_multiply(left: f64, right: f64, expected: f64) {
     let left = prob(left);
     let right = prob(right);
-    assert!(is_close!((left * right).get(), expected, abs_tol = 1e-18));
-    assert!(is_close!((right * left).get(), expected, abs_tol = 1e-18));
+    assert_is_close!((left * right).get(), expected, abs_tol = 1e-18);
+    assert_is_close!((right * left).get(), expected, abs_tol = 1e-18);
     let mut value = left;
     value *= right;
-    assert!(is_close!(value.get(), expected, abs_tol = 1e-18));
-    assert!(is_close!((left & right).get(), expected, abs_tol = 1e-18));
+    assert_is_close!(value.get(), expected, abs_tol = 1e-18);
+    assert_is_close!((left & right).get(), expected, abs_tol = 1e-18);
     let mut value = left;
     value &= right;
-    assert!(is_close!(value.get(), expected, abs_tol = 1e-18));
+    assert_is_close!(value.get(), expected, abs_tol = 1e-18);
 }
 
 #[test_case(0.0, 1.0, 1.0)]
@@ -128,25 +129,17 @@ fn test_prob_multiply(left: f64, right: f64, expected: f64) {
 fn test_prob_saturating_add(left: f64, right: f64, expected: f64) {
     let left = prob(left);
     let right = prob(right);
-    assert!(is_close!(
-        left.saturating_add(right).get(),
-        expected,
-        abs_tol = 1e-18
-    ));
-    assert!(is_close!(
-        right.saturating_add(left).get(),
-        expected,
-        abs_tol = 1e-18
-    ));
-    assert!(is_close!(
+    assert_is_close!(left.saturating_add(right).get(), expected, abs_tol = 1e-18);
+    assert_is_close!(right.saturating_add(left).get(), expected, abs_tol = 1e-18);
+    assert_is_close!(
         Prob::saturating_add(left, right).get(),
         expected,
         abs_tol = 1e-18
-    ));
-    assert!(is_close!((left | right).get(), expected, abs_tol = 1e-18));
+    );
+    assert_is_close!((left | right).get(), expected, abs_tol = 1e-18);
     let mut value = left;
     value |= right;
-    assert!(is_close!(value.get(), expected, abs_tol = 1e-18));
+    assert_is_close!(value.get(), expected, abs_tol = 1e-18);
 }
 
 #[test]
