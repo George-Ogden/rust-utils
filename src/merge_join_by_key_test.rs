@@ -17,6 +17,7 @@ use test_case::test_case;
 #[test_case([0, 3], [1, 2, 4], Clone::clone, [Left(0), Right(1), Right(2), Left(3), Right(4)])]
 #[test_case([1.5], [0.5, 1.5, 2.5], |x| OrderedFloat(*x), [Right(0.5), Both(1.5, 1.5), Right(2.5)])]
 #[test_case([0, 5, 0], [1, 1], Clone::clone, [Left(0), Right(1), Right(1), Left(5), Left(0)])]
+#[test_case([1, 3, 5], [2, 4, 6], |_| (), [Both(1, 2), Both(3, 4), Both(5, 6)])]
 fn test_merge_join_by_key<
     T: Clone + Debug + PartialEq,
     U: Ord,
