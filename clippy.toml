@@ -1,3 +1,1 @@
-disallowed-methods = [
-  { path = "std::iter::Iterator::zip", replacement = "itertools::Itertools::zip_eq" }
-]
+disallowed-methods = [{ path = "std::iter::Iterator::zip", replacement = "itertools::Itertools::zip_eq" }]

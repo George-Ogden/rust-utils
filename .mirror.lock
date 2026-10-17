@@ -1,5 +1,5 @@
 # DANGER: EDIT AT YOUR OWN RISK. Track this file in version control so that others can sync files correctly.
-- commit: addffdde225bc8fbb4a3c2f3bf2bbf08b8aa4773
+- commit: cbaac39f88d78f24329c9c8927ca823c230d7967
   files:
   - .cargo/toolfmt.toml
   - .github/release.yaml
@@ -18,5 +18,6 @@
   - rust.mirror.yaml
   - rust.pre-commit-config.yaml
   - template-README.md
+  - tombi.toml
   - version.txt
   source: https://github.com/George-Ogden/mirror-config

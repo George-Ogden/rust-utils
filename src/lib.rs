@@ -6,6 +6,8 @@ pub mod assert_is_close;
 pub mod id;
 #[cfg(feature = "map-into")]
 pub mod map_into;
+#[cfg(feature = "merge-join-by-key")]
+pub mod merge_join_by_key;
 #[cfg(feature = "multi-zip")]
 pub mod multi_zip;
 #[cfg(feature = "pair")]
