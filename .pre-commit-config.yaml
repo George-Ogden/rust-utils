@@ -88,7 +88,7 @@ repos:
         args: [--all-features, --all-targets, --workspace]
 
   - repo: https://github.com/tombi-toml/tombi-pre-commit/
-    rev: v1.8.5
+    rev: v1.8.6
     hooks:
       - id: tombi-format
         alias: tombi
