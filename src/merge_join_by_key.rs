@@ -14,6 +14,7 @@ pub trait MergeJoinByKey: Iterator + Sized {
         other: J,
         mut key: F,
     ) -> MergeJoinBy<Self, J::IntoIter, impl FnMut(&Self::Item, &J::Item) -> Ordering> {
+        #[expect(clippy::disallowed_methods)]
         self.merge_join_by(other, move |left, right| key(left).cmp(&key(right)))
     }
 }
