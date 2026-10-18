@@ -4,6 +4,8 @@ pub mod all_unique_by_key;
 pub mod assert_is_close;
 #[cfg(feature = "id")]
 pub mod id;
+#[cfg(feature = "into-map")]
+pub mod into_map;
 #[cfg(feature = "map-into")]
 pub mod map_into;
 #[cfg(feature = "merge-join-by-key")]

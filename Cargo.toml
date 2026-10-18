@@ -1,6 +1,6 @@
 [package]
 name = "utils"
-version = "0.14.1"
+version = "0.15.0"
 edition = "2024"
 
 [package.metadata.cargo-shear]
@@ -11,6 +11,7 @@ all-unique-by-key = ["dep:itertools"]
 assert-is-close = ["dep:is_close"]
 id = ["dep:derive_more"]
 map-into = ["dep:fmap"]
+into-map = []
 merge-join-by-key = ["dep:itertools"]
 multi-zip = ["dep:itertools"]
 pair = []
