@@ -1,1 +1,9 @@
-disallowed-methods = [{ path = "std::iter::Iterator::zip", replacement = "itertools::Itertools::zip_eq" }]
+disallowed-methods = [
+  { path = "std::iter::Iterator::zip", replacement = "itertools::Itertools::zip_eq" },
+  { path = "itertools::Itertools::merge_join_by", reason = "Use `itertools::merge_join_by`." },
+  { path = "itertools::Itertools::zip_eq", reason = "Use `itertools::zip_eq`." },
+  { path = "itertools::Itertools::merge", reason = "Use `itertools::merge`." },
+  { path = "std::iter::Iterator::chain", reason = "Use `std::iter::chain` or `itertools::chain!`." },
+  { path = "itertools::chain", replacement = "std::iter::chain" },
+  { path = "itertools::Itertools::cartesian_product", reason = "Use `itertools::iproduct!`." },
+]

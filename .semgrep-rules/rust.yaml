@@ -208,3 +208,106 @@ rules:
       if !is_close!(...) {
         assert_eq!(...);
       }
+
+  - id: into-iter-merge-join-by
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `IntoIter` enabled version.
+    pattern: $I.into_iter().merge_join_by($J, $F)
+    fix: |
+      merge_join_by($I, $J, $F)
+
+  - id: into-iter-dual
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `IntoIter` enabled version.
+    patterns:
+      - pattern: $I.into_iter().$F($J)
+      - metavariable-regex:
+          metavariable: $F
+          regex: (?x)^(
+            zip_eq|
+            merge
+            )$
+    fix: $F($I, $J)
+
+  - id: iter-dual
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `IntoIter` enabled version.
+    patterns:
+      - pattern: $I.iter().$F($J)
+      - metavariable-regex:
+          metavariable: $F
+          regex: (?x)^(
+            zip_eq|
+            merge
+            )$
+    fix: $F(&$I, $J)
+
+  - id: into-iter-min-max
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `itertools::{min,max}` method.
+    patterns:
+      - pattern: $X.into_iter().$M()
+      - metavariable-regex:
+          metavariable: $M
+          regex: ^(max|min)$
+    fix: $M($X)
+
+  - id: iter-min-max
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `itertools::{min,max}` method.
+    patterns:
+      - pattern: $X.iter().$M()
+      - metavariable-regex:
+          metavariable: $M
+          regex: ^(max|min)$
+    fix: $M(&$X)
+
+  - id: for-into-iter
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `IntoIter` enabled version.
+    patterns:
+      - pattern-inside: |
+          for $E in ... {...}
+      - pattern: $X.into_iter().$Y()
+      - metavariable-regex:
+          metavariable: $Y
+          regex: (?x)^(
+            cloned|
+            copied|
+            enumerate|
+            rev|
+            sorted
+            )$
+    fix: $Y($X)
+
+  - id: for-iter
+    languages:
+      - rust
+    severity: ERROR
+    message: Use `IntoIter` enabled version.
+    patterns:
+      - pattern-inside: |
+          for $E in ... {...}
+      - pattern: $X.iter().$Y()
+      - metavariable-regex:
+          metavariable: $Y
+          regex: (?x)^(
+            cloned|
+            copied|
+            enumerate|
+            rev|
+            sorted
+            )$
+    fix: $Y(&$X)
