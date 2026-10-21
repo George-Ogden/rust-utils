@@ -15,7 +15,12 @@ fn test_pairwise<T: Debug + Clone + PartialEq, const M: usize, const N: usize>(
     expected: [(T, T); N],
 ) {
     let expected = expected.to_vec();
-    assert_eq!(original.into_iter().pairwise().collect_vec(), expected);
+    assert_eq!(
+        original.clone().into_iter().pairwise().collect_vec(),
+        expected
+    );
+
+    assert_eq!(pairwise(original).collect_vec(), expected);
 }
 
 #[test]
