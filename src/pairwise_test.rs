@@ -17,3 +17,11 @@ fn test_pairwise<T: Debug + Clone + PartialEq, const M: usize, const N: usize>(
     let expected = expected.to_vec();
     assert_eq!(original.into_iter().pairwise().collect_vec(), expected);
 }
+
+#[test]
+fn test_infinite_pairwise() {
+    assert_eq!(
+        (0..).pairwise().take(5).collect_vec(),
+        [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]
+    );
+}
