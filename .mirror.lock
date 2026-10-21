@@ -1,5 +1,5 @@
 # DANGER: EDIT AT YOUR OWN RISK. Track this file in version control so that others can sync files correctly.
-- commit: aac300cb64a49ebce7beca89abfcc9fdce057074
+- commit: 8826bea27c83cf3b2823bae064a3c5da15f026aa
   files:
   - .cargo/toolfmt.toml
   - .github/release.yaml
