@@ -14,6 +14,8 @@ pub mod merge_join_by_key;
 pub mod multi_zip;
 #[cfg(feature = "pair")]
 pub mod pair;
+#[cfg(feature = "pairwise")]
+pub mod pairwise;
 #[cfg(feature = "prob")]
 pub mod prob;
 #[cfg(feature = "sign")]

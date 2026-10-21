@@ -15,6 +15,7 @@ into-map = []
 merge-join-by-key = ["dep:itertools"]
 multi-zip = ["dep:itertools"]
 pair = []
+pairwise = ["dep:itertools"]
 prob = ["dep:derive_more"]
 serde = ["dep:serde"]
 sign = ["dep:num-traits"]
@@ -39,7 +40,7 @@ itertools = "0.15.0"
 ordered-float = "5.3.0"
 pretty_assertions = "1.4.1"
 serde_json = "1.0.151"
-test-case = "3.3.1"
+test-case = "3.4.0"
 textwrap = "0.16.2"
 utils = { path = ".", features = ["test-utils"] }
 
