@@ -1,3 +1,4 @@
+indent_count = 2
 table_order = [
   "package",
   "features",

@@ -1,6 +1,6 @@
 [package]
 name = "utils"
-version = "0.16.0"
+version = "0.17.0"
 edition = "2024"
 
 [package.metadata.cargo-shear]
@@ -8,7 +8,7 @@ ignored = ["utils"]
 
 [features]
 all-unique-by-key = ["dep:itertools"]
-assert-is-close = ["dep:is_close"]
+assert-is-close = ["dep:is_close", "dep:itertools", "dep:num-traits"]
 id = ["dep:derive_more"]
 map-into = ["dep:fmap"]
 into-map = []
@@ -89,6 +89,7 @@ exhaustive_structs = "allow"
 expect_used = "allow"
 field_scoped_visibility_modifiers = "allow"
 float_arithmetic = "allow"
+float_cmp = "allow"
 impl_trait_in_params = "allow"
 implicit_return = "allow"
 indexing_slicing = "allow"
