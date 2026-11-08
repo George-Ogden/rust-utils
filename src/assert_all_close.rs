@@ -22,12 +22,18 @@ pub fn all_close<
 }
 
 #[macro_export]
+/// Assert that two collections are close together.
+///
+/// Pass in any settings supported by `is_close::is_close!`.
+/// This fails if any items are pairwise different or the collections are different lengths.
+/// It uses `pretty_assertions` to generate an error message if they are not different.
 macro_rules! assert_all_close {
     ($left:expr, $right:expr $(, $set:ident = $val:expr)*) => {
         let left = $left;
         let right = $right;
 
         let mut comparator = $crate::assert_is_close::is_close::default();
+        // The set methods return a mutable reference to allow chaining.
         let comparator = (&mut comparator)$(.$set($val))*;
 
         if !$crate::assert_all_close::all_close(&left, &right, comparator) {
