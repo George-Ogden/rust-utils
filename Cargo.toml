@@ -8,7 +8,7 @@ ignored = ["utils"]
 
 [features]
 all-unique-by-key = ["dep:itertools"]
-assert-is-close = ["dep:is_close"]
+assert-is-close = ["dep:is_close", "dep:itertools", "dep:num-traits"]
 id = ["dep:derive_more"]
 map-into = ["dep:fmap"]
 into-map = []
