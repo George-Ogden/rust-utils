@@ -10,10 +10,12 @@ on:
 
 jobs:
   prek-lint:
-    uses: George-Ogden/actions/.github/workflows/lint.yaml@v4.7.2
+    uses: George-Ogden/actions/.github/workflows/lint.yaml@v5.2.2
+    with:
+      python-version: "3.14"
 
   cargo-lint:
-    uses: George-Ogden/actions/.github/workflows/rust-lint.yaml@v4.7.2
+    uses: George-Ogden/actions/.github/workflows/rust-lint.yaml@v5.2.2
     with:
       rust-version: stable
       hack-flags: --each-feature
