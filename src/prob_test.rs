@@ -1,5 +1,8 @@
 #![expect(clippy::needless_pass_by_value)]
-use std::hash::{DefaultHasher, Hash, Hasher};
+use std::{
+    hash::{DefaultHasher, Hash, Hasher},
+    iter,
+};
 
 use crate::assert_is_close;
 
@@ -7,6 +10,7 @@ use super::*;
 use clap::Parser;
 use ordered_float::NotNan;
 use pretty_assertions::assert_eq;
+use rand::{SeedableRng, rngs::StdRng};
 use test_case::test_case;
 
 fn prob(value: f64) -> Prob {
@@ -195,5 +199,28 @@ fn test_prob_to_from_not_nan(prob: impl Into<Option<f64>>, not_nan: f64) {
     assert_eq!(not_nan.as_f32().try_into().ok(), prob);
     if let Some(prob) = prob {
         assert_eq!(NotNan::from(prob), not_nan);
+    }
+}
+
+#[test_case(0.0)]
+#[test_case(0.1)]
+#[test_case(0.5)]
+#[test_case(0.8)]
+#[test_case(1.0)]
+fn test_sample_bernoulli(p: f64) {
+    let prob = quick_prob(p);
+    let count = 1000u32;
+    let mut rng = StdRng::seed_from_u64(0);
+    let successes = iter::repeat_with(|| prob.sample_bernoulli(&mut rng))
+        .take(count as usize)
+        .filter(|&b| b)
+        .count();
+    let expected = (prob.into_inner() * f64::from(count)) as usize;
+    assert!((expected.saturating_sub(10)..=expected + 10).contains(&successes));
+    if prob == Prob::ZERO {
+        assert_eq!(successes, 0);
+    }
+    if prob == Prob::ONE {
+        assert_eq!(successes, count as usize);
     }
 }

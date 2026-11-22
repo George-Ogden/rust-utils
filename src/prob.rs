@@ -10,6 +10,7 @@ use std::{
 
 use derive_more::{Deref, Display, From, Into, Mul, MulAssign};
 use ordered_float::NotNan;
+use rand::RngExt;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 /// Error from converting an f64 to a probability.
@@ -120,6 +121,13 @@ impl Prob {
     /// Add the two values, clamping the value at `1.0`.
     pub const fn saturating_add(self, other: Self) -> Self {
         Self(f64::min(self.get() + other.get(), 1.0))
+    }
+
+    #[inline]
+    #[must_use]
+    /// Sample a value from a Bernoulli distribution with this probability.
+    pub fn sample_bernoulli(self, rng: &mut impl RngExt) -> bool {
+        rng.random_bool(*self)
     }
 }
 
