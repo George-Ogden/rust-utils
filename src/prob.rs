@@ -100,10 +100,16 @@ impl Prob {
 
     #[inline]
     #[must_use]
-    #[doc(alias = "into_inner")]
     /// Return the inner f64.
-    pub const fn get(self) -> f64 {
+    pub const fn into_inner(self) -> f64 {
         self.0
+    }
+
+    #[inline]
+    #[must_use]
+    /// Alias for `Prob::into_inner`.
+    pub const fn get(self) -> f64 {
+        self.into_inner()
     }
 
     #[inline]
