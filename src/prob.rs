@@ -1,14 +1,14 @@
 use std::error::Error;
 use std::fmt::{self, Display};
 use std::num::ParseFloatError;
-use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, Mul, MulAssign, Not};
+use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, MulAssign, Not};
 use std::str::FromStr;
 use std::{
     cmp,
     hash::{self, Hash},
 };
 
-use derive_more::{Deref, Display, From, Into};
+use derive_more::{Deref, Display, From, Into, Mul, MulAssign};
 use ordered_float::NotNan;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -64,7 +64,9 @@ impl ProbError {
 
 type ProbResult = Result<Prob, ProbError>;
 
-#[derive(Debug, Clone, Copy, PartialEq, Into, Deref, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Into, Deref, Default, Mul, MulAssign)]
+#[mul(forward)]
+#[mul_assign(forward)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 /// Probability between 0 and 1.
 pub struct Prob(f64);
@@ -217,21 +219,6 @@ impl Not for Prob {
     /// Return the negation (1.0 - p).
     fn not(self) -> Self::Output {
         Self(1.0 - self.get())
-    }
-}
-
-impl Mul for Prob {
-    type Output = Self;
-
-    #[inline]
-    fn mul(self, rhs: Self) -> Self::Output {
-        Self(self.get() * rhs.get())
-    }
-}
-impl MulAssign for Prob {
-    #[inline]
-    fn mul_assign(&mut self, rhs: Self) {
-        *self = *self * rhs;
     }
 }
 
