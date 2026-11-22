@@ -70,8 +70,9 @@ type ProbResult = Result<Prob, ProbError>;
 pub struct Prob(f64);
 
 impl Prob {
-    const ZERO: Self = Self(0.0);
-    const ONE: Self = Self(1.0);
+    pub const ZERO: Self = Self(0.0);
+    pub const HALF: Self = Self(0.5);
+    pub const ONE: Self = Self(1.0);
 
     #[inline]
     /// Convert an f64 to a probability.
