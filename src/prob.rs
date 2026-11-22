@@ -9,6 +9,7 @@ use std::{
 };
 
 use derive_more::{Deref, Display, From, Into};
+use ordered_float::NotNan;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 /// Error from converting an f64 to a probability.
@@ -135,6 +136,20 @@ impl From<bool> for Prob {
     /// `false` is converted to `0.0`.
     fn from(value: bool) -> Self {
         if value { Self::ONE } else { Self::ZERO }
+    }
+}
+impl TryFrom<NotNan<f64>> for Prob {
+    type Error = ProbError;
+
+    #[inline]
+    fn try_from(value: NotNan<f64>) -> Result<Self, Self::Error> {
+        Self::try_from(value.into_inner())
+    }
+}
+impl From<Prob> for NotNan<f64> {
+    #[inline]
+    fn from(value: Prob) -> Self {
+        Self::try_from(value.get()).expect("Probability to NotNan conversion should be infallible.")
     }
 }
 

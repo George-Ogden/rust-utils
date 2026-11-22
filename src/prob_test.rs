@@ -5,11 +5,16 @@ use crate::assert_is_close;
 
 use super::*;
 use clap::Parser;
+use ordered_float::NotNan;
 use pretty_assertions::assert_eq;
 use test_case::test_case;
 
 fn prob(value: f64) -> Prob {
     Prob::new(value).unwrap()
+}
+
+fn quick_prob(value: f64) -> Prob {
+    prob(value)
 }
 
 fn quick_hash<H: Hash>(value: &H) -> u64 {
@@ -167,4 +172,21 @@ fn test_serialize_value() {
     assert_eq!(serde_json::to_string(&prob(0.0)).unwrap(), "0.0");
     assert_eq!(serde_json::to_string(&prob(1.0)).unwrap(), "1.0");
     assert_eq!(serde_json::to_string(&[prob(0.2)]).unwrap(), "[0.2]");
+}
+
+#[test_case(None, 2.0)]
+#[test_case(None, -1.0)]
+#[test_case(1.0, 1.0)]
+#[test_case(0.0, 0.0)]
+#[test_case(0.5, 0.5)]
+#[test_case(0.75, 0.75)]
+#[test_case(None, f64::INFINITY)]
+#[test_case(None, f64::NEG_INFINITY)]
+fn test_prob_to_from_not_nan(prob: impl Into<Option<f64>>, not_nan: f64) {
+    let not_nan = NotNan::new(not_nan).unwrap();
+    let prob = prob.into().map(quick_prob);
+    assert_eq!(not_nan.try_into().ok(), prob);
+    if let Some(prob) = prob {
+        assert_eq!(NotNan::from(prob), not_nan);
+    }
 }
