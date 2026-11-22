@@ -153,6 +153,14 @@ impl TryFrom<NotNan<f64>> for Prob {
         Self::try_from(value.into_inner())
     }
 }
+impl TryFrom<NotNan<f32>> for Prob {
+    type Error = ProbError;
+
+    #[inline]
+    fn try_from(value: NotNan<f32>) -> Result<Self, Self::Error> {
+        Self::try_from(value.into_inner())
+    }
+}
 impl From<Prob> for NotNan<f64> {
     #[inline]
     fn from(value: Prob) -> Self {

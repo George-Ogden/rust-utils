@@ -192,6 +192,7 @@ fn test_prob_to_from_not_nan(prob: impl Into<Option<f64>>, not_nan: f64) {
     let not_nan = NotNan::new(not_nan).unwrap();
     let prob = prob.into().map(quick_prob);
     assert_eq!(not_nan.try_into().ok(), prob);
+    assert_eq!(not_nan.as_f32().try_into().ok(), prob);
     if let Some(prob) = prob {
         assert_eq!(NotNan::from(prob), not_nan);
     }
