@@ -1,14 +1,16 @@
 use std::error::Error;
 use std::fmt::{self, Display};
 use std::num::ParseFloatError;
-use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, Mul, MulAssign, Not};
+use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, MulAssign, Not};
 use std::str::FromStr;
 use std::{
     cmp,
     hash::{self, Hash},
 };
 
-use derive_more::{Deref, Display, From, Into};
+use derive_more::{Deref, Display, From, Into, Mul, MulAssign};
+use ordered_float::NotNan;
+use rand::RngExt;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 /// Error from converting an f64 to a probability.
@@ -63,14 +65,17 @@ impl ProbError {
 
 type ProbResult = Result<Prob, ProbError>;
 
-#[derive(Debug, Clone, Copy, PartialEq, Into, Deref, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Into, Deref, Default, Mul, MulAssign)]
+#[mul(forward)]
+#[mul_assign(forward)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 /// Probability between 0 and 1.
 pub struct Prob(f64);
 
 impl Prob {
-    const ZERO: Self = Self(0.0);
-    const ONE: Self = Self(1.0);
+    pub const ZERO: Self = Self(0.0);
+    pub const HALF: Self = Self(0.5);
+    pub const ONE: Self = Self(1.0);
 
     #[inline]
     /// Convert an f64 to a probability.
@@ -99,10 +104,16 @@ impl Prob {
 
     #[inline]
     #[must_use]
-    #[doc(alias = "into_inner")]
     /// Return the inner f64.
-    pub const fn get(self) -> f64 {
+    pub const fn into_inner(self) -> f64 {
         self.0
+    }
+
+    #[inline]
+    #[must_use]
+    /// Alias for `Prob::into_inner`.
+    pub const fn get(self) -> f64 {
+        self.into_inner()
     }
 
     #[inline]
@@ -110,6 +121,13 @@ impl Prob {
     /// Add the two values, clamping the value at `1.0`.
     pub const fn saturating_add(self, other: Self) -> Self {
         Self(f64::min(self.get() + other.get(), 1.0))
+    }
+
+    #[inline]
+    #[must_use]
+    /// Sample a value from a Bernoulli distribution with this probability.
+    pub fn sample_bernoulli(self, rng: &mut impl RngExt) -> bool {
+        rng.random_bool(*self)
     }
 }
 
@@ -135,6 +153,28 @@ impl From<bool> for Prob {
     /// `false` is converted to `0.0`.
     fn from(value: bool) -> Self {
         if value { Self::ONE } else { Self::ZERO }
+    }
+}
+impl TryFrom<NotNan<f64>> for Prob {
+    type Error = ProbError;
+
+    #[inline]
+    fn try_from(value: NotNan<f64>) -> Result<Self, Self::Error> {
+        Self::try_from(value.into_inner())
+    }
+}
+impl TryFrom<NotNan<f32>> for Prob {
+    type Error = ProbError;
+
+    #[inline]
+    fn try_from(value: NotNan<f32>) -> Result<Self, Self::Error> {
+        Self::try_from(value.into_inner())
+    }
+}
+impl From<Prob> for NotNan<f64> {
+    #[inline]
+    fn from(value: Prob) -> Self {
+        Self::try_from(value.get()).expect("Probability to NotNan conversion should be infallible.")
     }
 }
 
@@ -187,21 +227,6 @@ impl Not for Prob {
     /// Return the negation (1.0 - p).
     fn not(self) -> Self::Output {
         Self(1.0 - self.get())
-    }
-}
-
-impl Mul for Prob {
-    type Output = Self;
-
-    #[inline]
-    fn mul(self, rhs: Self) -> Self::Output {
-        Self(self.get() * rhs.get())
-    }
-}
-impl MulAssign for Prob {
-    #[inline]
-    fn mul_assign(&mut self, rhs: Self) {
-        *self = *self * rhs;
     }
 }
 

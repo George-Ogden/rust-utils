@@ -15,7 +15,6 @@ repos:
     rev: v0.4.11
     hooks:
       - id: mirror-check
-        fail_fast: true
 
   - repo: builtin
     hooks:
@@ -36,7 +35,7 @@ repos:
         args: [--assume-in-merge]
 
   - repo: https://github.com/rbubley/mirrors-prettier/
-    rev: v3.9.10
+    rev: v3.10.1
     hooks:
       - id: prettier
         exclude: \.snap$
@@ -88,14 +87,14 @@ repos:
         args: [--all-features, --all-targets, --workspace]
 
   - repo: https://github.com/tombi-toml/tombi-pre-commit/
-    rev: v1.10.0
+    rev: v1.11.3
     hooks:
       - id: tombi-format
         alias: tombi
         exclude: \.lock$
 
   - repo: https://github.com/DevinR528/cargo-sort/
-    rev: v2.1.4
+    rev: v2.1.5
     hooks:
       - id: cargo-sort
         args:
@@ -120,7 +119,7 @@ repos:
         additional_dependencies: ["cli:cargo-shear"]
 
   - repo: https://github.com/semgrep/pre-commit/
-    rev: v1.184.0
+    rev: v1.186.0
     hooks:
       - id: semgrep
         require_serial: true
