@@ -55,6 +55,12 @@ fn test_prob_from_f32(value: f32, expected: ProbResult) {
     assert_eq!(Prob::try_from(value), expected);
 }
 
+#[test]
+fn test_anyhow_compatibility() -> anyhow::Result<()> {
+    let _ = Prob::new(0.5)?;
+    Ok(())
+}
+
 #[test_case(0.0f64, "0.0")]
 #[test_case(-0.0, "0.0")]
 #[test_case(1.0, "1.0")]
